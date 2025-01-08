@@ -21,7 +21,7 @@ class CreateAttendancesTable extends Migration
             $table->time('check_out')->nullable();
             $table->time('break_start')->nullable();
             $table->time('break_end')->nullable();
-            $table->enum('status', ['off', 'working', 'break', 'checked_out'])->default('off');
+            $table->enum('status', ['off', 'working', 'break', 'finished'])->default('off');
             $table->timestamps();
         });
     }

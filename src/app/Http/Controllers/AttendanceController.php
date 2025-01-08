@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Attendance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class AttendanceController extends Controller
 {
@@ -17,14 +18,11 @@ class AttendanceController extends Controller
             ->whereDate('date', $date)
             ->first();
 
-        return view('index', compact('attendance', 'date'));
+        $dateChanged = $attendance ? today()->isAfter($attendance->date) : false;
+
+        return view('index', compact('attendance', 'date', 'dateChanged'));
     }
 
-    /**
-     * 出勤打刻を行う
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function checkIn()
     {
         $user = Auth::user();
@@ -46,5 +44,26 @@ class AttendanceController extends Controller
         ]);
 
         return back()->with('success', '出勤打刻が完了しました。');
+    }
+
+    public function checkOut()
+    {
+        $user = Auth::user();
+        $date = today();
+
+        $attendance = Attendance::where('user_id', $user->id)
+            ->whereDate('date', $date)
+            ->first();
+
+        if (!$attendance) {
+            return back()->with('error', '出勤データが存在しません。');
+        }
+
+        $attendance->update([
+            'check_out' => now(),
+            'status' => 'finished',
+        ]);
+
+        return back()->with('success', '退勤打刻が完了しました。');
     }
 }

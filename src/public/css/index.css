@@ -41,6 +41,11 @@
     font-style: normal;
 }
 
+.attendance__message {
+    font-size: 26px;
+    font-weight: 700;
+}
+
 .attendance__button {
     display: inline-block;
     margin-top: 50px;
