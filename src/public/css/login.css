@@ -18,7 +18,11 @@
 
 .form__group {
     text-align: left;
-    margin-top: 30px;
+    margin-top: 50px;
+}
+
+.form__group-pass {
+    margin-top: 60px;
 }
 
 .form__label {
@@ -39,7 +43,7 @@
 
 .form__btn-submit {
     height: 60px;
-    margin-top: 60px;
+    margin-top: 80px;
     font-size: 26px;
     background-color: #000;
     color: #fff;
@@ -61,6 +65,33 @@
     font-size: 20px;
 }
 
-.login__link-login:hover {
-    text-decoration: underline;
+.error {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+@media (max-width: 850px) {
+    .login__container {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .login__title {
+        font-size: 28px;
+    }
+
+    .form__label {
+        font-size: 18px;
+    }
+
+    .form__btn-submit {
+        font-size: 20px;
+        height: 50px;
+    }
+
+    .login__link-register {
+        font-size: 16px;
+    }
 }

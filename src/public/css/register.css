@@ -61,8 +61,11 @@
     font-size: 20px;
 }
 
-.register__link-login:hover {
-    text-decoration: underline;
+.error {
+    color: red;
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 5px;
 }
 
 @media (max-width: 850px) {
