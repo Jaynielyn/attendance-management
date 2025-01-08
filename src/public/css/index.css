@@ -19,6 +19,7 @@
     padding: 13px 20px;
     border-radius: 20px;
     font-size: 18px;
+    font-weight: bold;
     margin-bottom: 20px;
 }
 
@@ -31,10 +32,13 @@
 
 .attendance__time p {
     font-size: 80px;
-    font-weight: bold;
     color: #000;
     margin-bottom: 40px;
     margin-top: 60px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
 }
 
 .attendance__button {
@@ -49,10 +53,29 @@
     font-weight: bold;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    width: 250px;
 }
 
 .attendance__button:hover {
     background-color: #333;
+}
+
+.attendance__button--break {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    width: 250px;
+}
+
+.attendance__button--break:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+.attendance__button-group {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 @media (max-width: 850px) and (min-width: 768px) {

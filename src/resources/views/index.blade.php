@@ -9,15 +9,50 @@
 <div class="attendance">
     <div class="attendance__container">
         <div class="attendance__status">
-            <span class="attendance__status-text">勤務外</span>
+            <span class="attendance__status-text">
+                @if($attendance)
+                @if($attendance->status === 'working')
+                出勤中
+                @elseif($attendance->status === 'break')
+                休憩中
+                @elseif($attendance->status === 'off')
+                勤務外
+                @elseif($attendance->status === 'checkedOut')
+                退勤済
+                @else
+                {{ ucfirst($attendance->status) }}
+                @endif
+                @else
+                勤務外
+                @endif
+            </span>
         </div>
         <div class="attendance__date">
-            <p>2023年6月1日(木)</p>
+            <p>{{ now()->locale('ja')->isoFormat('YYYY年MM月DD日(ddd)') }}</p>
         </div>
         <div class="attendance__time">
-            <p>08:00</p>
+            <p>{{ now()->format('H:i') }}</p>
         </div>
-        <button class="attendance__button">出勤</button>
+
+        @if($attendance)
+        @if($attendance->status === 'working')
+        <div class="attendance__button-group">
+            <form action="{{ route('attendance.checkOut') }}" method="POST">
+                @csrf
+                <button type="submit" class="attendance__button">退勤</button>
+            </form>
+            <form action="{{ route('attendance.breakStart') }}" method="POST">
+                @csrf
+                <button type="submit" class="attendance__button attendance__button--break">休憩入</button>
+            </form>
+        </div>
+        @endif
+        @else
+        <form action="{{ route('attendance.checkIn') }}" method="POST">
+            @csrf
+            <button type="submit" class="attendance__button">出勤</button>
+        </form>
+        @endif
     </div>
 </div>
 @endsection
