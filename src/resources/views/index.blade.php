@@ -35,7 +35,8 @@
         </div>
 
         @if($attendance)
-        @if($attendance->status === 'working')
+        <div class="attendance__button-group">
+            @if($attendance->status === 'working')
         <div class="attendance__button-group">
             <form action="{{ route('attendance.checkOut') }}" method="POST" id="checkOutForm">
                 @csrf
@@ -45,12 +46,17 @@
                 @csrf
                 <button type="submit" class="attendance__button attendance__button--break">休憩入</button>
             </form>
+            @elseif($attendance->status === 'break')
+            <form action="{{ route('attendance.breakEnd') }}" method="POST" id="breakEndForm">
+                @csrf
+                <button type="submit" class="attendance__button attendance__button--break-end">休憩戻</button>
+            </form>
+            @elseif($attendance->status === 'finished')
+            <div class="attendance__message">
+                <p>お疲れ様でした。</p>
+            </div>
+            @endif
         </div>
-        @elseif($attendance->status === 'finished')
-        <div class="attendance__message">
-            <p>お疲れ様でした。</p>
-        </div>
-        @endif
         @else
         <form action="{{ route('attendance.checkIn') }}" method="POST">
             @csrf
@@ -86,17 +92,17 @@
         var attendanceStatus = "{{ $attendance ? $attendance->status : 'off' }}";
 
         if (attendanceStatus === 'finished') {
-            // 退勤後はボタンを非表示
-            document.querySelector('#checkOutForm').style.display = 'none';
-            document.querySelector('#breakStartForm').style.display = 'none';
+            document.querySelector('.attendance__button-group').style.display = 'none';
             document.querySelector('.attendance__message').style.display = 'block';
+        } else if (attendanceStatus === 'break') {
+            document.querySelector('#breakStartForm')?.style.display = 'none';
+            document.querySelector('#checkOutForm')?.style.display = 'none';
+            document.querySelector('#breakEndForm')?.style.display = 'block';
         } else if (attendanceStatus === 'working') {
-            // 出勤中は退勤ボタンを表示
-            document.querySelector('#checkOutForm').style.display = 'block';
-            document.querySelector('#breakStartForm').style.display = 'block';
-            document.querySelector('.attendance__message').style.display = 'none';
+            document.querySelector('#breakEndForm')?.style.display = 'none';
+            document.querySelector('#breakStartForm')?.style.display = 'block';
+            document.querySelector('#checkOutForm')?.style.display = 'block';
         }
     });
 </script>
-
 @endsection

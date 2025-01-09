@@ -65,10 +65,10 @@
     background-color: #333;
 }
 
-.attendance__button--break {
+.attendance__button--break,
+.attendance__button--break-end {
     background-color: #fff;
     color: #000;
-    border: 2px solid #000;
     width: 250px;
 }
 
