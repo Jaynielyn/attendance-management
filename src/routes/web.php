@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
+use App\Http\Controllers\AttendanceListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,4 +22,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/attendance/check-out', [AttendanceController::class, 'checkOut'])->name('attendance.checkOut');
     Route::post('/attendance/break_start', [AttendanceController::class, 'breakStart'])->name('attendance.breakStart');
     Route::post('/attendance/break_end', [AttendanceController::class, 'breakEnd'])->name('attendance.breakEnd');
+
+    //一覧
+    Route::get('/attendance/list', [AttendanceListController::class, 'list'])->name('attendance.list');
 });

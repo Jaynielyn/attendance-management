@@ -37,7 +37,6 @@
         @if($attendance)
         <div class="attendance__button-group">
             @if($attendance->status === 'working')
-        <div class="attendance__button-group">
             <form action="{{ route('attendance.checkOut') }}" method="POST" id="checkOutForm">
                 @csrf
                 <button type="submit" class="attendance__button">退勤</button>
@@ -52,7 +51,7 @@
                 <button type="submit" class="attendance__button attendance__button--break-end">休憩戻</button>
             </form>
             @elseif($attendance->status === 'finished')
-            <div class="attendance__message">
+            <div class="attendance__message attendance__message--hidden">
                 <p>お疲れ様でした。</p>
             </div>
             @endif
@@ -69,7 +68,6 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         updateTime();
-
         setInterval(updateTime, 60000);
 
         function updateTime() {
@@ -87,21 +85,6 @@
 
             document.getElementById('currentTime').textContent = currentTime;
             document.getElementById('currentDate').textContent = currentDate;
-        }
-
-        var attendanceStatus = "{{ $attendance ? $attendance->status : 'off' }}";
-
-        if (attendanceStatus === 'finished') {
-            document.querySelector('.attendance__button-group').style.display = 'none';
-            document.querySelector('.attendance__message').style.display = 'block';
-        } else if (attendanceStatus === 'break') {
-            document.querySelector('#breakStartForm')?.style.display = 'none';
-            document.querySelector('#checkOutForm')?.style.display = 'none';
-            document.querySelector('#breakEndForm')?.style.display = 'block';
-        } else if (attendanceStatus === 'working') {
-            document.querySelector('#breakEndForm')?.style.display = 'none';
-            document.querySelector('#breakStartForm')?.style.display = 'block';
-            document.querySelector('#checkOutForm')?.style.display = 'block';
         }
     });
 </script>

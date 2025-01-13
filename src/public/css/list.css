@@ -1,0 +1,87 @@
+.attendance__list {
+    margin: 80px auto;
+    max-width: 800px;
+    font-family: Arial, sans-serif;
+}
+
+.attendance__list h1 {
+    text-align: left;
+    margin-bottom: 20px;
+    font-size: 30px;
+}
+
+.navigation {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: white;
+    border-radius: 10px;
+    margin: 40px 0;
+}
+
+.navigation .prev__month,
+.navigation .next__month {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #737373;
+    border: none;
+    padding: 20px 0;
+    margin: 0 15px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.navigation .prev__month img,
+.navigation .next__month img {
+    width: 16px;
+    height: 16px;
+}
+
+.navigation .current__month {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 20px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+}
+
+.navigation .current__month img {
+    width: 20px;
+    height: 20px;
+}
+
+.attendance__table {
+    width: 100%;
+    margin-top: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.table__ttl {
+    border-bottom: 3px solid #E1E1E1;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #737373;
+}
+
+.table__inner {
+    border-top: 2px solid #E1E1E1;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    color: #737373;
+}
+
+.attendance__table a {
+    text-decoration: none;
+}
