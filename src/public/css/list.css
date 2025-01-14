@@ -32,6 +32,7 @@
     cursor: pointer;
     font-size: 16px;
     font-weight: 700;
+    text-decoration: none;
 }
 
 .navigation .prev__month img,

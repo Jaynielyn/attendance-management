@@ -67,40 +67,4 @@ class AttendanceController extends Controller
 
         return back()->with('success', '退勤打刻が完了しました。');
     }
-
-    public function breakStart(Request $request)
-    {
-        $attendance = Attendance::where('user_id', auth()->id())
-            ->where('date', Carbon::today()->toDateString())
-            ->where('status', 'working')
-            ->first();
-
-        if ($attendance) {
-            $attendance->status = 'break';
-            $attendance->break_start = Carbon::now();
-            $attendance->save();
-
-            return redirect()->back()->with('success', '休憩を開始しました。');
-        }
-
-        return redirect()->back()->with('error', '休憩を開始できませんでした。');
-    }
-
-    public function breakEnd(Request $request)
-    {
-        $attendance = Attendance::where('user_id', auth()->id())
-            ->where('date', Carbon::today()->toDateString())
-            ->where('status', 'break')
-            ->first();
-
-        if ($attendance) {
-            $attendance->status = 'working';
-            $attendance->break_end = Carbon::now();
-            $attendance->save();
-
-            return redirect()->back()->with('success', '休憩が終了しました。');
-        }
-
-        return redirect()->back()->with('error', '休憩を終了できませんでした。');
-    }
 }

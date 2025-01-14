@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Attendance;
+use App\Models\BreakTime;
 use Carbon\Carbon;
 
 class AttendanceListController extends Controller
@@ -11,7 +12,7 @@ class AttendanceListController extends Controller
     public function list(Request $request)
     {
         $currentDate = $request->input('month')
-            ? Carbon::createFromFormat('Y-m', $request->input('month'))
+        ? Carbon::createFromFormat('Y-m', $request->input('month'))
             : now();
 
         $currentMonth = $currentDate->format('Y/m');
@@ -19,37 +20,45 @@ class AttendanceListController extends Controller
         $attendances = Attendance::where('user_id', auth()->id())
             ->whereMonth('date', $currentDate->month)
             ->whereYear('date', $currentDate->year)
+            ->orderBy('date', 'asc')
             ->get()
             ->map(function ($attendance) {
-                // 休憩時間の計算
-                if ($attendance->break_start && $attendance->break_end) {
-                    $breakStart = Carbon::parse($attendance->break_start);
-                    $breakEnd = Carbon::parse($attendance->break_end);
-                    $breakDuration = $breakStart->diff($breakEnd);
-                    $attendance->break_time = sprintf('%02d:%02d', $breakDuration->h, $breakDuration->i);
-                } else {
-                    $attendance->break_time = '00:00';
+                // 休憩時間の合計を取得（時と分のみ計算）
+                $totalBreakHours = 0;
+                $totalBreakMinutes = 0;
+
+                BreakTime::where('attendance_id', $attendance->id)->get()->each(function ($break) use (&$totalBreakHours, &$totalBreakMinutes) {
+                    $start = Carbon::parse($break->break_start);
+                    $end = Carbon::parse($break->break_end);
+
+                    if ($end > $start) {
+                        $totalBreakHours += $start->diffInHours($end);
+                        $totalBreakMinutes += $start->diffInMinutes($end) % 60;
+                    }
+                });
+
+                // 分が60を超える場合、時間に変換
+                if ($totalBreakMinutes >= 60) {
+                    $totalBreakHours += floor($totalBreakMinutes / 60);
+                    $totalBreakMinutes = $totalBreakMinutes % 60;
                 }
+
+                // 休憩時間を "hh:mm" 形式に変換
+                $attendance->break_time = sprintf('%02d:%02d', $totalBreakHours, $totalBreakMinutes);
 
                 // 合計作業時間の計算
                 if ($attendance->check_in && $attendance->check_out) {
                     $checkIn = Carbon::parse($attendance->check_in);
                     $checkOut = Carbon::parse($attendance->check_out);
-                    $workDuration = $checkIn->diff($checkOut);
+                    $workDurationInMinutes = $checkIn->diffInHours($checkOut) * 60 + $checkIn->diffInMinutes($checkOut) % 60;
 
-                    // 合計作業時間から休憩時間を引く
-                    if ($attendance->break_start && $attendance->break_end) {
-                        $totalWorkHours = $workDuration->h - $breakDuration->h;
-                        $totalWorkMinutes = $workDuration->i - $breakDuration->i;
+                    // 休憩時間を差し引いた合計作業時間
+                    $totalWorkMinutes = $workDurationInMinutes - ($totalBreakHours * 60 + $totalBreakMinutes);
 
-                        // 分がマイナスになる場合、1時間分補正
-                        if ($totalWorkMinutes < 0) {
-                            $totalWorkHours -= 1;
-                            $totalWorkMinutes += 60;
-                        }
-                        $attendance->total_work_time = sprintf('%02d:%02d', $totalWorkHours, $totalWorkMinutes);
+                    if ($totalWorkMinutes > 0) {
+                        $attendance->total_work_time = sprintf('%02d:%02d', floor($totalWorkMinutes / 60), $totalWorkMinutes % 60);
                     } else {
-                        $attendance->total_work_time = sprintf('%02d:%02d', $workDuration->h, $workDuration->i);
+                        $attendance->total_work_time = '00:00';
                     }
                 } else {
                     $attendance->total_work_time = '00:00';
