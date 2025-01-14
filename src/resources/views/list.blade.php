@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="attendance__list">
-    <h1>I 勤怠一覧</h1>
+    <h1>勤怠一覧</h1>
     <div class="navigation">
         <a href="{{ route('attendance.list', ['month' => \Carbon\Carbon::createFromFormat('Y/m', $currentMonth)->subMonth()->format('Y-m')]) }}" class="prev__month">
             <img src="{{ asset('img/arrow-left-solid.svg') }}" alt="前月" class="icon"> 前月
@@ -41,7 +41,9 @@
                 <td class="table__inner">{{ $attendance->check_out ? \Carbon\Carbon::parse($attendance->check_out)->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
-                <td class="table__inner"><a href="{{ route('attendance.list', $attendance->id) }}">詳細</a></td>
+                <td class="table__inner">
+                    <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
+                </td>
             </tr>
             @endforeach
         </tbody>

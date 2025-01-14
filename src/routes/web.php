@@ -29,4 +29,9 @@ Route::middleware('auth')->group(function () {
 
     // 勤怠一覧
     Route::get('/attendance/list', [AttendanceListController::class, 'list'])->name('attendance.list');
+
+    //詳細
+    Route::get('/attendance/{id}', [AttendanceListController::class, 'detail'])->name('attendance.detail');
+    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+
 });

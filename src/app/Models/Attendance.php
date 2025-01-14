@@ -17,8 +17,6 @@ class Attendance extends Model
         'date',
         'check_in',
         'check_out',
-        'break_start',
-        'break_end',
         'status',
     ];
 
@@ -27,11 +25,20 @@ class Attendance extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function breakTimes()
+    {
+        return $this->hasMany(BreakTime::class);
+    }
+
+    public function editRequests()
+    {
+        return $this->hasMany(EditRequest::class);
+    }
+
+
     protected $dates = [
         'check_in',
         'check_out',
-        'break_start',
-        'break_end',
         'date',
     ];
 }

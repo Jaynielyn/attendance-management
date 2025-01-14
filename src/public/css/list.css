@@ -1,13 +1,16 @@
 .attendance__list {
-    margin: 80px auto;
     max-width: 800px;
+    margin: 80px auto;
     font-family: Arial, sans-serif;
 }
 
 .attendance__list h1 {
-    text-align: left;
-    margin-bottom: 20px;
     font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 4px solid black;
+    padding-left: 10px;
 }
 
 .navigation {

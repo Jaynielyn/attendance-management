@@ -69,4 +69,53 @@ class AttendanceListController extends Controller
 
         return view('list', compact('currentMonth', 'attendances'));
     }
+
+    public function detail($id)
+    {
+        $attendance = Attendance::with('breakTimes')->findOrFail($id);
+
+        // 日付を「年」と「月日」に分割
+        $attendance->year = Carbon::parse($attendance->date)->format('Y年');
+        $attendance->month_day = Carbon::parse($attendance->date)->format('m月d日');
+        $attendance->check_in_time = $attendance->check_in ? Carbon::parse($attendance->check_in)->format('H:i') : null;
+        $attendance->check_out_time = $attendance->check_out ? Carbon::parse($attendance->check_out)->format('H:i') : null;
+
+        // 休憩時間を取得（時と分のみ）
+        $breakTimes = $attendance->breakTimes->map(function ($break) {
+            return [
+                'start' => $break->break_start ? Carbon::parse($break->break_start)->format('H:i') : null,
+                'end' => $break->break_end ? Carbon::parse($break->break_end)->format('H:i') : null,
+            ];
+        });
+
+        return view('detail', compact('attendance', 'breakTimes'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'check_in' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
+            'check_out' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
+            'break_times.*.start' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
+            'break_times.*.end' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
+        ]);
+
+        // 入力データを保存
+        $attendance = Attendance::findOrFail($id);
+        $attendance->date = Carbon::createFromFormat('Y年m月d日', $request->year . $request->month_day);
+        $attendance->check_in = $request->check_in;
+        $attendance->check_out = $request->check_out;
+        $attendance->remarks = $request->remarks;
+        $attendance->save();
+
+        // 休憩時間を保存
+        foreach ($request->break_times as $index => $break) {
+            BreakTime::updateOrCreate(
+                ['attendance_id' => $attendance->id, 'id' => $index],
+                ['break_start' => $break['start'], 'break_end' => $break['end']]
+            );
+        }
+
+        return redirect()->route('attendance.detail', $id)->with('success', '勤怠情報を更新しました。');
+    }
 }
