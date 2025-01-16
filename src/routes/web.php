@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AttendanceController;
 use App\Http\Controllers\AttendanceListController;
 use App\Http\Controllers\BreakTimeController;
+use App\Http\Controllers\Admin\AuthenticatedSessionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +35,24 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/{id}', [AttendanceListController::class, 'detail'])->name('attendance.detail');
     Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 
+});
+
+Route::prefix('admin')->group(function () {
+    // 管理者ログインページ
+    Route::get('/login', function () {
+        return view('admin.login');
+    })->name('admin.login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])
+        ->middleware(['guest:admin'])
+        ->name('admin.login.post');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+        ->middleware(['auth:admin'])
+        ->name('admin.logout');
+
+    // 管理者専用ルート（認証が必要）
+    Route::middleware('auth:admin')->group(function () {
+        Route::get('/admin_list', function () {
+            return view('admin.admin_list');
+        })->name('admin.admin_list');
+    });
 });

@@ -74,7 +74,9 @@ return [
     |
     */
 
-    'home' => RouteServiceProvider::HOME,
+    'home' => function () {
+        return request()->is('admin/*') ? '/admin/admin_list' : '/';
+    },
 
     /*
     |--------------------------------------------------------------------------
