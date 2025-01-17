@@ -6,6 +6,7 @@ use App\Http\Controllers\AttendanceListController;
 use App\Http\Controllers\BreakTimeController;
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\AdminListController;
+use App\Http\Controllers\Admin\AdminStaffController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,10 +53,9 @@ Route::prefix('admin')->group(function () {
     // 管理者専用ルート（認証が必要）
     Route::middleware('auth:admin')->group(function () {
         // 管理者用ダッシュボード
-        Route::get('/admin_list', function () {
-            return view('admin.admin_list');
-        })->name('admin.admin_list');
-
         Route::get('/admin_list', [AdminListController::class, 'index'])->name('admin.admin_list');
+
+        // スタッフ一覧
+        Route::get('/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff_list');
     });
 });

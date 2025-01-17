@@ -8,7 +8,7 @@
             <nav class="header__nav">
                 <ul class="header__menu">
                     <li class="header__menu-item"><a href="/admin/admin_list">勤怠一覧</a></li>
-                    <li class="header__menu-item"><a href="#">スタッフ一覧</a></li>
+                    <li class="header__menu-item"><a href="{{ route('admin.staff_list') }}">スタッフ一覧</a></li>
                     <li class="header__menu-item"><a href="#">申請一覧</a></li>
                 </ul>
             </nav>

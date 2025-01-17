@@ -1,0 +1,45 @@
+.staff__list {
+    max-width: 900px;
+    margin: 80px auto;
+    font-family: Arial, sans-serif;
+}
+
+.staff__list h1 {
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left;
+    border-left: 8px solid black;
+    padding: 4px 10px;
+}
+
+.staff__table {
+    width: 100%;
+    margin-top: 50px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.table__ttl {
+    border-bottom: 3px solid #E1E1E1;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    color: #737373;
+}
+
+.table__inner {
+    border-top: 2px solid #E1E1E1;
+    padding: 10px;
+    text-align: center;
+    font-size: 16px;
+    font-family: "Inter", serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    color: #737373;
+}
+
+.staff__table a {
+    text-decoration: none;
+}
