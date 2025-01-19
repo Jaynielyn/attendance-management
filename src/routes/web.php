@@ -57,5 +57,7 @@ Route::prefix('admin')->group(function () {
 
         // スタッフ一覧
         Route::get('/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff_list');
+
+        Route::get('/staff/{id}/attendance', [AdminStaffController::class, 'attendance'])->name('admin.staff_attendance');
     });
 });

@@ -23,7 +23,7 @@
                 <td class="table__inner">{{ $staff->name }}</td>
                 <td class="table__inner">{{ $staff->email }}</td>
                 <td class="table__inner">
-                    <a href="">詳細</a>
+                    <a href="{{ route('admin.staff_attendance', ['id' => $staff->id]) }}">詳細</a>
                 </td>
             </tr>
             @empty
