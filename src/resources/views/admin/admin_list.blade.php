@@ -46,7 +46,7 @@
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
                 <td class="table__inner">
-                    <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}" table__ttl-detail>詳細</a>
+                    <a href="{{ route('admin.attendance.detail', ['userId' => $attendance->user->id, 'date' => $currentDate->toDateString()]) }}">詳細</a>
                 </td>
             </tr>
             @empty

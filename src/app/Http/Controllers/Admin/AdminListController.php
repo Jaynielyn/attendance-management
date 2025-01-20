@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use App\Models\User;
 use App\Models\BreakTime;
 use Illuminate\Http\Request;
+use App\Http\Requests\UpdateAttendanceRequest;
 use Carbon\Carbon;
 
 class AdminListController extends Controller
@@ -61,4 +62,85 @@ class AdminListController extends Controller
 
         return view('admin.admin_list', compact('attendances', 'currentDate'));
     }
+
+    public function detail($userId, Request $request)
+    {
+        $date = $request->input('date') ?? Carbon::today()->toDateString();
+
+        $attendance = Attendance::with(['user', 'breakTimes'])
+        ->where('user_id', $userId)
+            ->whereDate('date', $date)
+            ->first();
+
+        if (!$attendance) {
+            return redirect()->route('admin.attendance.list')->withErrors('指定された勤怠情報が見つかりません。');
+        }
+
+        return view('admin.admin_detail', compact('attendance'));
+    }
+
+    public function updateDetail(UpdateAttendanceRequest $request, $userId, $date)
+    {
+        // 勤怠データを取得
+        $attendance = Attendance::where('user_id', $userId)
+            ->whereDate('date', $date)
+            ->first();
+
+        if (!$attendance) {
+            return redirect()->back()->with('error', '勤怠情報が見つかりません。');
+        }
+
+        // 年と月日を処理
+        $year = intval(preg_replace('/[^0-9]/', '', $request->input('year')));
+        preg_match('/(\d{1,2})月(\d{1,2})日/', $request->input('month_day'), $matches);
+        if (count($matches) === 3) {
+            $month = $matches[1];
+            $day = $matches[2];
+        } else {
+            return back()->withErrors(['month_day' => '月日が正しい形式ではありません。']);
+        }
+        $newDate = \Carbon\Carbon::create($year, $month, $day);
+
+        // 出勤時間・退勤時間を
+        $checkIn = $request->input('check_in') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_in')) : null;
+        $checkOut = $request->input('check_out') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_out')) : null;
+
+        // 休憩時間のバリデーション
+        $breakStarts = $request->input('break_start');
+        $breakEnds = $request->input('break_end');
+
+        foreach ($breakStarts as $index => $breakStart) {
+            if (!empty($breakStart)) {
+                $breakStartTime = \Carbon\Carbon::createFromFormat('H:i', $breakStart);
+
+                if ($checkIn && $breakStartTime->lt($checkIn)) {
+                    return back()->withErrors(['break_start.' . $index => '休憩時間が勤務時間外です。']);
+                }
+                if ($checkOut && $breakStartTime->gt($checkOut)) {
+                    return back()->withErrors(['break_start.' . $index => '休憩時間が勤務時間外です。']);
+                }
+            }
+
+            if (!empty($breakEnds[$index])) {
+                $breakEndTime = \Carbon\Carbon::createFromFormat('H:i', $breakEnds[$index]);
+
+                if ($checkIn && $breakEndTime->lt($checkIn)) {
+                    return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
+                }
+                if ($checkOut && $breakEndTime->gt($checkOut)) {
+                    return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
+                }
+            }
+        }
+
+        $attendance->date = $newDate;
+        $attendance->check_in = $request->input('check_in');
+        $attendance->check_out = $request->input('check_out');
+        $attendance->remarks = $request->input('remarks');
+        $attendance->save();
+
+        return redirect()->route('admin.attendance.detail', ['userId' => $userId, 'date' => $newDate->format('Y-m-d')])
+            ->with('success', '勤怠情報を更新しました。');
+    }
+
 }

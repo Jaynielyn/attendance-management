@@ -59,5 +59,9 @@ Route::prefix('admin')->group(function () {
         Route::get('/staff/list', [AdminStaffController::class, 'index'])->name('admin.staff_list');
 
         Route::get('/staff/{id}/attendance', [AdminStaffController::class, 'attendance'])->name('admin.staff_attendance');
+
+        Route::get('/admin/attendance/detail/{userId}', [AdminListController::class, 'detail'])->name('admin.attendance.detail');
+
+        Route::put('/admin/attendance/{userId}/{date}', [AdminListController::class, 'updateDetail'])->name('admin.attendance.update');
     });
 });
