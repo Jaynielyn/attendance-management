@@ -101,13 +101,14 @@ class AdminListController extends Controller
         }
         $newDate = \Carbon\Carbon::create($year, $month, $day);
 
-        // 出勤時間・退勤時間を
         $checkIn = $request->input('check_in') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_in')) : null;
         $checkOut = $request->input('check_out') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_out')) : null;
 
-        // 休憩時間のバリデーション
+        // 休憩時間のバリデーションと保存
         $breakStarts = $request->input('break_start');
         $breakEnds = $request->input('break_end');
+
+        $attendance->breakTimes()->delete();
 
         foreach ($breakStarts as $index => $breakStart) {
             if (!empty($breakStart)) {
@@ -119,16 +120,26 @@ class AdminListController extends Controller
                 if ($checkOut && $breakStartTime->gt($checkOut)) {
                     return back()->withErrors(['break_start.' . $index => '休憩時間が勤務時間外です。']);
                 }
-            }
 
-            if (!empty($breakEnds[$index])) {
-                $breakEndTime = \Carbon\Carbon::createFromFormat('H:i', $breakEnds[$index]);
+                if (!empty($breakEnds[$index])) {
+                    $breakEndTime = \Carbon\Carbon::createFromFormat('H:i', $breakEnds[$index]);
 
-                if ($checkIn && $breakEndTime->lt($checkIn)) {
-                    return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
-                }
-                if ($checkOut && $breakEndTime->gt($checkOut)) {
-                    return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
+                    if ($checkIn && $breakEndTime->lt($checkIn)) {
+                        return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
+                    }
+                    if ($checkOut && $breakEndTime->gt($checkOut)) {
+                        return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
+                    }
+
+                    if ($breakStartTime->gt($breakEndTime)) {
+                        return back()->withErrors(['break_start.' . $index => '休憩開始時間が終了時間より後になっています。']);
+                    }
+
+                    // 休憩データを保存
+                    $attendance->breakTimes()->create([
+                        'break_start' => $breakStartTime->format('H:i'),
+                        'break_end' => $breakEndTime->format('H:i'),
+                    ]);
                 }
             }
         }

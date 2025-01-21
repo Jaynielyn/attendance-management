@@ -44,7 +44,9 @@
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
                 <td class="table__inner">
-                    <a href="#">詳細</a>
+                    <a href="{{ route('admin.attendance.detail', ['userId' => $attendance->user_id, 'date' => \Carbon\Carbon::parse($attendance->date)->toDateString()]) }}">
+                        詳細
+                    </a>
                 </td>
             </tr>
             @endforeach
