@@ -22,8 +22,8 @@
                     <th class="table__ttl">日付</th>
                     <td class="table__inner">
                         <div class="date__row">
-                            <input type="text" name="year" class="year" value="{{ $attendance->year }}">
-                            <input type="text" name="month_day" class="day" value="{{ $attendance->month_day }}">
+                            <input type="text" name="year" class="year" value="{{ \Carbon\Carbon::parse($attendance->date)->format('Y年') }}">
+                            <input type="text" name="month_day" class="day" value="{{ \Carbon\Carbon::parse($attendance->date)->format('n月j日') }}">
                         </div>
                     </td>
                 </tr>
@@ -37,26 +37,30 @@
                         </div>
                     </td>
                 </tr>
+                @foreach ($breakTimes as $index => $break)
                 <tr class="table__item">
                     <th class="table__ttl">休憩</th>
                     <td class="table__inner">
                         <div class="time__row">
-                            @foreach ($breakTimes as $index => $break)
                             <input type="text" class="time" name="break_times[{{ $index }}][start]" placeholder="HH:mm" value="{{ $break['start'] }}">
                             <span>~</span>
                             <input type="text" class="time" name="break_times[{{ $index }}][end]" placeholder="HH:mm" value="{{ $break['end'] }}">
-                            @endforeach
                         </div>
                     </td>
                 </tr>
+                @endforeach
                 <tr class="table__item">
                     <th class="table__ttl">理由</th>
                     <td class="table__inner">
-                        <textarea name="remarks">{{ $attendance->remarks }}</textarea>
+                        <textarea name="remarks"></textarea>
                     </td>
                 </tr>
             </table>
-            <button type="submit" class="edit-button">修正</button>
+            @if (!$editRequest)
+            <button type="submit" class="edit__button">修正</button>
+            @else
+            <p class="approval__status">*承認待ちのため修正はできません。</p>
+            @endif
         </form>
     </div>
 </div>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Attendance;
 use App\Models\BreakTime;
+use App\Models\EditRequest;
 use Carbon\Carbon;
 
 class AttendanceListController extends Controller
@@ -88,34 +89,10 @@ class AttendanceListController extends Controller
             ];
         });
 
-        return view('detail', compact('attendance', 'breakTimes'));
-    }
+        $editRequest = EditRequest::where('attendance_id', $id)
+            ->where('approval_status', '承認待ち')
+            ->first();
 
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'check_in' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
-            'check_out' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
-            'break_times.*.start' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
-            'break_times.*.end' => ['nullable', 'regex:/^([01]\d|2[0-3]):([0-5]\d)$/'],
-        ]);
-
-        // 入力データを保存
-        $attendance = Attendance::findOrFail($id);
-        $attendance->date = Carbon::createFromFormat('Y年m月d日', $request->year . $request->month_day);
-        $attendance->check_in = $request->check_in;
-        $attendance->check_out = $request->check_out;
-        $attendance->remarks = $request->remarks;
-        $attendance->save();
-
-        // 休憩時間を保存
-        foreach ($request->break_times as $index => $break) {
-            BreakTime::updateOrCreate(
-                ['attendance_id' => $attendance->id, 'id' => $index],
-                ['break_start' => $break['start'], 'break_end' => $break['end']]
-            );
-        }
-
-        return redirect()->route('attendance.detail', $id)->with('success', '勤怠情報を更新しました。');
+        return view('detail', compact('attendance', 'breakTimes', 'editRequest'));
     }
 }

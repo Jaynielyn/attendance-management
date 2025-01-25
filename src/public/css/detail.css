@@ -82,7 +82,7 @@ textarea {
     font-size: 14px;
 }
 
-.edit-button {
+.edit__button {
     margin: 20px 0 0 auto;
     display: block;
     padding: 10px 20px;
@@ -94,4 +94,12 @@ textarea {
     font-weight: bold;
     cursor: pointer;
     text-align: center;
+}
+
+.approval__status {
+    margin-top: 20px;
+    text-align: right;
+    color: #FF000080;
+    font-weight: bold;
+    font-size: 18px;
 }

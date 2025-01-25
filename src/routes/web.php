@@ -7,6 +7,8 @@ use App\Http\Controllers\BreakTimeController;
 use App\Http\Controllers\Admin\AuthenticatedSessionController;
 use App\Http\Controllers\Admin\AdminListController;
 use App\Http\Controllers\Admin\AdminStaffController;
+use App\Http\Controllers\Admin\AdminRequestController;
+use App\Http\Controllers\EditRequestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,9 +35,12 @@ Route::middleware('auth')->group(function () {
     // 勤怠一覧
     Route::get('/attendance/list', [AttendanceListController::class, 'list'])->name('attendance.list');
 
-    //詳細
+    // 詳細
     Route::get('/attendance/{id}', [AttendanceListController::class, 'detail'])->name('attendance.detail');
-    Route::put('/attendance/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
+
+    // 更新処理
+    Route::put('/attendance/{id}', [EditRequestController::class, 'update'])->name('attendance.update');
+
 });
 
 Route::prefix('admin')->group(function () {
@@ -63,5 +68,11 @@ Route::prefix('admin')->group(function () {
         Route::get('/admin/attendance/detail/{userId}', [AdminListController::class, 'detail'])->name('admin.attendance.detail');
 
         Route::put('/admin/attendance/{userId}/{date}', [AdminListController::class, 'updateDetail'])->name('admin.attendance.update');
+
+        // 管理者用申請一覧
+        Route::get('/admin/requests', [AdminRequestController::class, 'index'])->name('admin.requests.index');
+
+        // 承認処理
+        Route::get('/requests/approve', [AdminRequestController::class, 'approve'])->name('admin.requests.approve');
     });
 });
