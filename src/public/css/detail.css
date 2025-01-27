@@ -92,7 +92,6 @@ textarea {
     border-radius: 5px;
     font-size: 16px;
     font-weight: bold;
-    cursor: pointer;
     text-align: center;
 }
 
@@ -102,4 +101,17 @@ textarea {
     color: #FF000080;
     font-weight: bold;
     font-size: 18px;
+}
+
+.btn-success {
+    margin: 20px 0 0 auto;
+    display: block;
+    padding: 10px 20px;
+    background-color: #696969;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
 }

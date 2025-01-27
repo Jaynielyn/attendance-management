@@ -37,20 +37,27 @@
                         </div>
                     </td>
                 </tr>
-                @foreach ($breakTimes as $index => $break)
+                @foreach ($attendance->breakTimes as $index => $break)
                 <tr class="table__item">
+                    @if ($index === 0)
                     <th class="table__ttl">休憩</th>
+                    @else
+                    <th class="table__ttl">休憩{{ $index + 1 }}</th>
+                    @endif
                     <td class="table__inner">
                         <div class="time__row">
-                            <input type="text" class="time" name="break_times[{{ $index }}][start]" placeholder="HH:mm" value="{{ $break['start'] }}">
+                            <input type="hidden" name="break_times[{{ $index }}][id]" value="{{ $break->id }}">
+                            <input type="text" class="time" name="break_times[{{ $index }}][start]"
+                                placeholder="HH:mm" value="{{ \Carbon\Carbon::parse($break->break_start)->format('H:i') }}">
                             <span>~</span>
-                            <input type="text" class="time" name="break_times[{{ $index }}][end]" placeholder="HH:mm" value="{{ $break['end'] }}">
+                            <input type="text" class="time" name="break_times[{{ $index }}][end]"
+                                placeholder="HH:mm" value="{{ \Carbon\Carbon::parse($break->break_end)->format('H:i') }}">
                         </div>
                     </td>
                 </tr>
                 @endforeach
                 <tr class="table__item">
-                    <th class="table__ttl">理由</th>
+                    <th class="table__ttl">備考</th>
                     <td class="table__inner">
                         <textarea name="remarks"></textarea>
                     </td>

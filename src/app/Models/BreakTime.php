@@ -31,6 +31,11 @@ class BreakTime extends Model
         return $this->belongsTo(Attendance::class);
     }
 
+    public function editBreakTimes()
+    {
+        return $this->hasMany(EditBreakTime::class, 'break_id');
+    }
+
     /**
      * 休憩時間の計算 (分単位)
      */

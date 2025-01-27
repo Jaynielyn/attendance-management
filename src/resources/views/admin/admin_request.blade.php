@@ -11,10 +11,10 @@
     <h1>申請一覧</h1>
     <div class="staff__tab">
         <!-- タブ切り替え -->
-        <a class="tab__inner {{ $status === '承認待ち' ? 'active' : '' }}"
-            href="{{ route('admin.requests.index', ['status' => '承認待ち']) }}">承認待ち</a>
-        <a class="tab__inner {{ $status === '承認済み' ? 'active' : '' }}"
-            href="{{ route('admin.requests.index', ['status' => '承認済み']) }}">承認済み</a>
+        <a href="{{ route('admin.requests', ['status' => '承認待ち']) }}"
+            class="tab__inner {{ $status === '承認待ち' ? 'active' : '' }}">承認待ち</a>
+        <a href="{{ route('admin.requests', ['status' => '承認済み']) }}"
+            class="tab__inner {{ $status === '承認済み' ? 'active' : '' }}">承認済み</a>
     </div>
     <table class="staff__table">
         <thead>
@@ -28,24 +28,20 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($editRequests as $request)
+            @forelse ($editRequests as $request)
             <tr>
-                <td class="table__inner">{{ $request->status }}</td>
+                <td class="table__inner">{{ $request->approval_status }}</td>
                 <td class="table__inner">{{ $request->user->name }}</td>
-                <td class="table__inner">{{ $request->attendance->date }}</td>
+                <td class="table__inner">{{ \Carbon\Carbon::parse($request->new_date)->format('Y/m/d') }}</td>
                 <td class="table__inner">{{ $request->reason }}</td>
-                <td class="table__inner">{{ $request->requested_at }}</td>
-                <td class="table__inner">
-                    @if ($status === '承認待ち')
-                    <form method="POST" action="{{ route('admin.requests.approve', $request->id) }}">
-                        @csrf
-                        @method('PUT')
-                        <button type="submit" class="approve__button">承認</button>
-                    </form>
-                    @endif
-                </td>
+                <td class="table__inner">{{ \Carbon\Carbon::parse($request->requested_at)->format('Y/m/d') }}</td>
+                <td class="table__inner"><a href="{{ route('admin.approval_request', $request->id) }}">詳細</a></td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td class="table__inner" colspan="6">データがありません。</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

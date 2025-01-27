@@ -18,8 +18,6 @@ class EditRequest extends Model
         'new_date',
         'new_check_in',
         'new_check_out',
-        'new_break_start',
-        'new_break_end',
         'approval_status',
         'requested_at',
     ];
@@ -32,5 +30,10 @@ class EditRequest extends Model
     public function attendance()
     {
         return $this->belongsTo(Attendance::class);
+    }
+
+    public function editBreakTimes()
+    {
+        return $this->hasMany(EditBreakTime::class);
     }
 }
