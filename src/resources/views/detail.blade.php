@@ -63,7 +63,7 @@
                     </td>
                 </tr>
             </table>
-            @if (!$editRequest)
+            @if (!$editRequest || $editRequest->approval_status === '承認済み')
             <button type="submit" class="edit__button">修正</button>
             @else
             <p class="approval__status">*承認待ちのため修正はできません。</p>

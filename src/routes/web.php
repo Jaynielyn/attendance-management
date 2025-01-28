@@ -35,6 +35,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/attendance/{id}', [AttendanceListController::class, 'detail'])->name('attendance.detail');
 
     Route::put('/attendance/{id}', [EditRequestController::class, 'update'])->name('attendance.update');
+
+    Route::get('/user/requests', [EditRequestController::class, 'userRequests'])->name('user.requests');
+
+    Route::get('/user/request/detail/{id}', [EditRequestController::class, 'showRequestDetail'])
+        ->name('user.request.detail');
 });
 
 Route::prefix('admin')->group(function () {

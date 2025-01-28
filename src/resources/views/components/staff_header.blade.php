@@ -9,7 +9,7 @@
                 <ul class="header__menu">
                     <li class="header__menu-item"><a href="/">勤怠</a></li>
                     <li class="header__menu-item"><a href="/attendance/list">勤怠一覧</a></li>
-                    <li class="header__menu-item"><a href="#">申請</a></li>
+                    <li class="header__menu-item"><a href="/user/requests">申請</a></li>
                 </ul>
             </nav>
 

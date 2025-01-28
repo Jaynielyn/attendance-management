@@ -59,4 +59,26 @@ class EditRequestController extends Controller
         return redirect()->route('attendance.detail', $id)
             ->with('success', '修正が申請されました。');
     }
+
+    public function userRequests(Request $request)
+    {
+        $userId = auth()->id();
+        $status = $request->get('status', '承認待ち');
+
+        $editRequests = EditRequest::where('user_id', $userId)
+            ->where('approval_status', $status)
+            ->orderBy('requested_at', 'desc')
+            ->get();
+
+        return view('request_list', compact('editRequests', 'status'));
+    }
+
+    public function showRequestDetail($id)
+    {
+        $editRequest = EditRequest::with('editBreakTimes', 'user')->findOrFail($id);
+
+        $attendanceId = $editRequest->attendance_id;
+
+        return redirect()->route('attendance.detail', ['id' => $attendanceId]);
+    }
 }
