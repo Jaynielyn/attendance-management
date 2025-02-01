@@ -13,7 +13,7 @@ class UpdateAttendanceRequest extends FormRequest
      */
     public function authorize()
     {
-        return true; // 認可ロジックを必要に応じて追加
+        return true;
     }
 
     /**
@@ -24,13 +24,11 @@ class UpdateAttendanceRequest extends FormRequest
     public function rules()
     {
         return [
-            'check_in' => 'nullable|date_format:H:i',
-            'check_out' => 'nullable|date_format:H:i|after:check_in',
-            'remarks' => 'required|string|max:255',
-            'year' => ['required', 'regex:/^\d{4}年$/'],
-            'month_day' => ['required', 'regex:/^\d{1,2}月\d{1,2}日$/'],
-            'break_start.*' => 'nullable|date_format:H:i',
-            'break_end.*' => 'nullable|date_format:H:i',
+            'check_in' => ['required', 'date_format:H:i'],
+            'check_out' => ['required', 'date_format:H:i', 'after:check_in'],
+            'break_start.*' => ['nullable', 'date_format:H:i', 'after_or_equal:check_in', 'before_or_equal:check_out'],
+            'break_end.*' => ['nullable', 'date_format:H:i', 'after:break_start.*', 'before_or_equal:check_out'],
+            'remarks' => ['required', 'string'],
         ];
     }
 
@@ -38,9 +36,11 @@ class UpdateAttendanceRequest extends FormRequest
     {
         return [
             'check_out.after' => '出勤時間もしくは退勤時間が不適切な値です。',
+            'break_start.*.after_or_equal' => '休憩時間が勤務時間外です。',
+            'break_start.*.before_or_equal' => '休憩時間が勤務時間外です。',
+            'break_end.*.after' => '休憩時間が勤務時間外です。',
+            'break_end.*.before_or_equal' => '休憩時間が勤務時間外です。',
             'remarks.required' => '備考を記入してください。',
-            'year.regex' => '年の形式が正しくありません。（例: 2025年）',
-            'month_day.regex' => '月日の形式が正しくありません。（例: 1月20日）',
         ];
     }
 }

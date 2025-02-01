@@ -48,9 +48,9 @@
                     <th class="table__ttl">休憩{{ $index + 1 }}</th>
                     <td class="table__inner">
                         <div class="time__row">
-                            <input type="text" name="break_start[]" class="time" value="{{ \Carbon\Carbon::parse($breakTime->break_start)->format('H:i') }}">
+                            <input type="text" name="break_start[]" class="time" value="{{ old("break_start.$index", \Carbon\Carbon::parse($breakTime->break_start)->format('H:i')) }}">
                             <span>~</span>
-                            <input type="text" name="break_end[]" class="time" value="{{ \Carbon\Carbon::parse($breakTime->break_end)->format('H:i') }}">
+                            <input type="text" name="break_end[]" class="time" value="{{ old("break_end.$index", \Carbon\Carbon::parse($breakTime->break_end)->format('H:i')) }}">
                         </div>
                         @error('break_start.' . $index)
                         <span class="text-danger">{{ $message }}</span>
@@ -69,9 +69,14 @@
                             <span>~</span>
                             <input type="text" name="break_end[]" class="time">
                         </div>
+                        @error('break_start.' . ($attendance->breakTimes->count()))
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
+                        @error('break_end.' . ($attendance->breakTimes->count()))
+                        <span class="text-danger">{{ $message }}</span>
+                        @enderror
                     </td>
                 </tr>
-
                 <tr class="table__item">
                     <th class="table__ttl">理由</th>
                     <td class="table__inner">

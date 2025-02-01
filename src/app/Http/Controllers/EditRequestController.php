@@ -9,10 +9,11 @@ use App\Models\BreakTime;
 use App\Models\EditBreakTime;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AttendanceRequest;
 
 class EditRequestController extends Controller
 {
-    public function update(Request $request, $id)
+    public function update(AttendanceRequest $request, $id) // AttendanceRequestを引数に
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
