@@ -64,6 +64,8 @@ Route::prefix('admin')->group(function () {
 
         Route::get('/staff/{id}/attendance', [AdminStaffController::class, 'attendance'])->name('admin.staff_attendance');
 
+        Route::get('/admin/staff/{staffId}/attendance/export', [AdminStaffController::class, 'exportCsv'])->name('admin.staff.attendance.export');
+
         Route::get('/admin/attendance/detail/{userId}', [AdminListController::class, 'detail'])->name('admin.attendance.detail');
 
         Route::put('/admin/attendance/{userId}/{date}', [AdminListController::class, 'updateDetail'])->name('admin.attendance.update');

@@ -51,7 +51,9 @@
             </tr>
             @endforeach
         </tbody>
-
     </table>
+    <a href="{{ route('admin.staff.attendance.export', ['staffId' => $staff->id, 'month' => $currentMonth]) }}" class="btn btn-primary">
+        CSVダウンロード
+    </a>
 </div>
 @endsection
