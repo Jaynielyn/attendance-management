@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\AdminListController;
 use App\Http\Controllers\Admin\AdminStaffController;
 use App\Http\Controllers\Admin\AdminRequestController;
 use App\Http\Controllers\EditRequestController;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,7 +23,7 @@ use App\Http\Controllers\EditRequestController;
 |
 */
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [AttendanceController::class, 'index']);
 
     Route::post('/attendance/check-in', [AttendanceController::class, 'checkIn'])->name('attendance.checkIn');

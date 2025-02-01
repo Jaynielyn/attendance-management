@@ -74,9 +74,7 @@ return [
     |
     */
 
-    'home' => function () {
-        return request()->is('admin/*') ? '/admin/admin_list' : '/';
-    },
+    'home' => env('HOME_URL', '/home'),
 
     /*
     |--------------------------------------------------------------------------
@@ -149,7 +147,7 @@ return [
     'features' => [
         Features::registration(),
         Features::resetPasswords(),
-        // Features::emailVerification(),
+        Features::emailVerification(),
         Features::updateProfileInformation(),
         Features::updatePasswords(),
         Features::twoFactorAuthentication([

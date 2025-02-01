@@ -14,6 +14,8 @@ use Laravel\Fortify\Fortify;
 use App\Models\User;
 use App\Models\Admin;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Fortify\Contracts\VerifyEmailViewResponse;
+use Laravel\Fortify\Http\Responses\SimpleViewResponse;
 
 class FortifyServiceProvider extends ServiceProvider
 {
@@ -36,6 +38,14 @@ class FortifyServiceProvider extends ServiceProvider
         // ユーザー用の登録画面
         Fortify::registerView(function () {
             return view('auth.register');
+        });
+
+        $this->app->singleton(VerifyEmailViewResponse::class, function () {
+            return new SimpleViewResponse('auth.verify-email');
+        });
+
+        Fortify::loginView(function () {
+            return view('auth.login');
         });
 
         // ユーザー用のログイン画面
