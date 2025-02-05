@@ -60,11 +60,11 @@
                 </tr>
             </table>
             @if ($editRequest->approval_status === '承認済み')
-            <button class="edit__button btn-success" disabled>承認済み</button>
+            <button class="edit__button btn__success" disabled>承認済み</button>
             @else
             <form method="POST" action="{{ route('admin.approve_request', $editRequest->id) }}">
                 @csrf
-                <button type="submit" class="edit__button btn-primary">承認する</button>
+                <button type="submit" class="edit__button btn-primary">承認</button>
             </form>
             @endif
         </form>

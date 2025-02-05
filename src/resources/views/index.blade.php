@@ -43,15 +43,15 @@
             </form>
             <form action="{{ route('break.start') }}" method="POST" id="breakStartForm">
                 @csrf
-                <button type="submit" class="attendance__button attendance__button--break">休憩入</button>
+                <button type="submit" class="attendance__button attendance__button-break">休憩入</button>
             </form>
             @elseif($attendance->status === 'break')
             <form action="{{ route('break.end') }}" method="POST" id="breakEndForm">
                 @csrf
-                <button type="submit" class="attendance__button attendance__button--break-end">休憩戻</button>
+                <button type="submit" class="attendance__button attendance__button-end">休憩戻</button>
             </form>
             @elseif($attendance->status === 'finished')
-            <div class="attendance__message attendance__message--hidden">
+            <div class="attendance__message">
                 <p>お疲れ様でした。</p>
             </div>
             @endif

@@ -1,5 +1,5 @@
 .attendance__detail {
-    max-width: 800px;
+    max-width: 900px;
     margin: 40px auto;
     font-family: Arial, sans-serif;
     padding: 20px;
@@ -7,111 +7,180 @@
 }
 
 .detail__ttl {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
     margin-bottom: 20px;
     text-align: left;
-    border-left: 4px solid black;
-    padding-left: 10px;
-}
-
-.detail__form-container {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.detail__form {
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 800px;
+    border-left: 8px solid black;
+    padding: 4px 20px;
 }
 
 .table__content {
     width: 100%;
+    margin-top: 50px;
     border-collapse: collapse;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #E1E1E1;
 }
 
 .table__item {
-    border-bottom: 1px solid #e1e1e1;
+    border-bottom: 2px solid #E1E1E1;
+    height: 100px;
+}
+
+.table__item:last-child {
+    border-bottom: none;
 }
 
 .table__ttl {
-    background-color: #f9f9f9;
-    padding: 15px;
-    text-align: left;
+    width: 25%;
+    font-size: 18px;
     font-weight: bold;
-    color: black;
-    width: 30%;
+    padding: 15px;
+    padding-left: 40px;
+    text-align: left;
+    background-color: #ffffff;
+    color: #737373;
 }
 
 .table__inner {
-    padding: 15px;
-    background-color: white;
-    text-align: left;
+    padding: 30px 120px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .date__row,
 .time__row {
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
+    width: 100%;
 }
 
 .year,
 .day,
-.time {
-    width: auto;
-    padding: 10px;
-    border: 1px solid #e1e1e1;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+.time,
+textarea {
+    padding: 18px 12px;
+    font-size: 16px;
+    border: 1px solid #CCC;
+    border-radius: 6px;
     text-align: center;
+    background: #fff;
+    height: 40px;
+    width: 120px;
+    font-weight: bold;
 }
 
 textarea {
     width: 100%;
-    height: 60px;
-    border: 1px solid #e1e1e1;
-    border-radius: 5px;
-    padding: 10px;
+    height: 80px;
     resize: none;
-    background-color: #f9f9f9;
-    font-family: Arial, sans-serif;
-    font-size: 14px;
+    text-align: left;
 }
 
 .edit__button {
-    margin: 20px 0 0 auto;
     display: block;
-    padding: 10px 20px;
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    width: 120px;
+    margin-left: auto;
+    margin-top: 90px;
+    padding: 10px;
+    font-size: 22px;
     font-weight: bold;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
     text-align: center;
 }
 
 .approval__status {
-    margin-top: 20px;
     text-align: right;
-    color: #FF000080;
-    font-weight: bold;
     font-size: 18px;
+    color: #ff000080;
+    font-weight: bold;
+    margin-top: 30px;
 }
 
-.btn-success {
-    margin: 20px 0 0 auto;
+.btn__success {
     display: block;
-    padding: 10px 20px;
+        width: 120px;
+        margin-left: auto;
+        margin-top: 90px;
+        padding: 10px;
     background-color: #696969;
     color: white;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    text-align: center;
+    font-size: 22px;
+        font-weight: bold;
+}
+
+@media (max-width: 768px) {
+    .attendance__detail {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .detail__ttl {
+        font-size: 24px;
+        padding: 4px 15px;
+    }
+
+    .table__content {
+        border-radius: 10px;
+    }
+
+    .table__item {
+        height: 100px;
+    }
+
+    .table__ttl {
+        font-size: 16px;
+    }
+
+    .table__inner {
+        padding: 30px 80px;
+        font-size: 16px;
+    }
+
+    .date__row,
+    .time__row {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 5px;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .year,
+    .day,
+    .time,
+    textarea {
+        width: 120px;
+    }
+
+    textarea {
+        width: 100%;
+        height: 80px;
+        resize: none;
+        text-align: left;
+    }
+
+    .edit__button,
+    .btn__success {
+        width: 100%;
+        max-width: 150px;
+        font-size: 18px;
+        margin-top: 40px;
+        padding: 10px 0;
+    }
 }

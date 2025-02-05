@@ -1,3 +1,7 @@
+body {
+    background-color: #fff !important;
+}
+
 .login__container {
     max-width: 680px;
     margin: 50px auto;
@@ -72,7 +76,7 @@
     margin-top: 5px;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 768px) {
     .login__container {
         max-width: 90%;
         padding: 15px;

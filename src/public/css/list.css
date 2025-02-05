@@ -1,5 +1,5 @@
 .attendance__list {
-    max-width: 800px;
+    max-width: 900px;
     margin: 80px auto;
     font-family: Arial, sans-serif;
 }
@@ -9,8 +9,8 @@
     font-weight: bold;
     margin-bottom: 20px;
     text-align: left;
-    border-left: 4px solid black;
-    padding-left: 10px;
+    border-left: 8px solid black;
+    padding: 4px 20px;
 }
 
 .navigation {
@@ -86,6 +86,81 @@
     color: #737373;
 }
 
-.attendance__table a {
+.weekday {
+    color: #737373;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
+
+.table__inner-link {
+    color: black;
     text-decoration: none;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
+
+.csv__btn {
+    display: block;
+    width: 150px;
+    margin-left: auto;
+    margin-top: 90px;
+    padding: 15px 0;
+    font-size: 22px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #000;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+}
+
+@media (max-width: 768px) {
+    .attendance__list {
+        max-width: 90%;
+        margin: 40px auto;
+        padding: 0 10px;
+    }
+
+    .attendance__list h1 {
+        font-size: 24px;
+        padding: 4px 15px;
+    }
+
+    .navigation {
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .navigation .prev__month,
+    .navigation .next__month {
+        margin: 0;
+        padding: 10px 10px;
+        font-size: 14px;
+    }
+
+    .navigation .current__month {
+        font-size: 18px;
+    }
+
+    .attendance__table {
+        border-radius: 5px;
+        overflow-x: auto;
+    }
+
+    .table__ttl,
+    .table__inner {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .csv__btn {
+        width: 100%;
+        max-width: 120px;
+        font-size: 18px;
+        margin-top: 40px;
+        padding: 10px 0;
+    }
 }

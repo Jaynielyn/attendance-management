@@ -40,7 +40,7 @@
 .header__menu-item a {
     text-decoration: none;
     color: #fff;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: bold;
     padding: 5px 10px;
     transition: background-color 0.3s;
@@ -52,12 +52,12 @@
     border: none;
     padding: 5px 10px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 24px;
     font-weight: 700;
     transition: background-color 0.3s;
 }
 
-@media (max-width: 850px) {
+@media (max-width: 768px) {
     .header {
         height: 70px;
     }
@@ -66,35 +66,33 @@
         padding: 10px 8px;
     }
 
+    .header__logo {
+        padding: 10px;
+    }
+
     .header__logo-img {
-        height: 35px;
+        height: 30px;
+        width: auto;
     }
 
     .header__menu {
         display: flex;
-        font-size: 16px;
+        justify-content: center;
+        padding: 0;
+        list-style: none;
     }
 
     .header__menu-item {
         margin-right: 10px;
     }
 
-    .menu__logout {
-        font-size: 16px;
+    .header__menu-item a {
+        font-size: 18px;
         padding: 5px 8px;
     }
-}
-
-@media (max-width: 768px) {
-    .header__menu {
-        display: flex;
-    }
-
-    .header__menu-item {
-        margin-right: 8px;
-    }
 
     .menu__logout {
-        font-size: 16px;
+        font-size: 17px;
+        padding: 5px 8px;
     }
 }

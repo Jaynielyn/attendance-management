@@ -10,7 +10,7 @@
     margin-bottom: 20px;
     text-align: left;
     border-left: 8px solid black;
-    padding: 4px 10px;
+    padding: 4px 20px;
 }
 
 .navigation {
@@ -90,6 +90,59 @@
     color: #737373;
 }
 
+.table__inner-text {
+    font-family: Arial, sans-serif;
+}
+
+.weekday {
+    color: #737373;
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+    font-weight: 700;
+}
+
 .attendance__table a {
     text-decoration: none;
+    font-family: Arial, sans-serif;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .attendance__list {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .attendance__list h1 {
+        font-size: 24px;
+        padding: 4px 10px;
+    }
+
+    .navigation {
+        display: flex;
+            justify-content: space-between;
+        gap: 10px;
+        padding: 10px 0;
+    }
+
+    .navigation .prev__day,
+    .navigation .next__day {
+        padding: 10px 0;
+        font-size: 14px;
+    }
+
+    .navigation .current__day {
+        font-size: 18px;
+    }
+
+    .attendance__table {
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+
+    .table__ttl,
+    .table__inner {
+        font-size: 14px;
+        padding: 8px;
+    }
 }

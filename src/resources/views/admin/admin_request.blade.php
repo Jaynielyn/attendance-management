@@ -30,12 +30,12 @@
         <tbody>
             @forelse ($editRequests as $request)
             <tr>
-                <td class="table__inner">{{ $request->approval_status }}</td>
-                <td class="table__inner">{{ $request->user->name }}</td>
+                <td class="table__inner table__inner-text">{{ $request->approval_status }}</td>
+                <td class="table__inner table__inner-text">{{ $request->user->name }}</td>
                 <td class="table__inner">{{ \Carbon\Carbon::parse($request->new_date)->format('Y/m/d') }}</td>
-                <td class="table__inner">{{ $request->reason }}</td>
+                <td class="table__inner table__inner-text">{{ $request->reason }}</td>
                 <td class="table__inner">{{ \Carbon\Carbon::parse($request->requested_at)->format('Y/m/d') }}</td>
-                <td class="table__inner"><a href="{{ route('admin.approval_request', $request->id) }}">詳細</a></td>
+                <td class="table__inner table__inner-text"><a href="{{ route('admin.approval_request', $request->id) }}">詳細</a></td>
             </tr>
             @empty
             <tr>

@@ -36,10 +36,10 @@
                             <input type="text" name="check_out" class="time" value="{{ \Carbon\Carbon::parse($attendance->check_out)->format('H:i') }}">
                         </div>
                         @error('check_in')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                         @error('check_out')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>
@@ -53,10 +53,10 @@
                             <input type="text" name="break_end[]" class="time" value="{{ old("break_end.$index", \Carbon\Carbon::parse($breakTime->break_end)->format('H:i')) }}">
                         </div>
                         @error('break_start.' . $index)
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                         @error('break_end.' . $index)
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>
@@ -70,25 +70,25 @@
                             <input type="text" name="break_end[]" class="time">
                         </div>
                         @error('break_start.' . ($attendance->breakTimes->count()))
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                         @error('break_end.' . ($attendance->breakTimes->count()))
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>
                 <tr class="table__item">
-                    <th class="table__ttl">理由</th>
+                    <th class="table__ttl">備考</th>
                     <td class="table__inner">
                         <textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea>
                         @error('remarks')
-                        <span class="text-danger">{{ $message }}</span>
+                        <span class="text__danger">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>
 
             </table>
-            <button type="submit" class="edit-button">修正</button>
+            <button type="submit" class="edit__button">修正</button>
         </form>
     </div>
 </div>

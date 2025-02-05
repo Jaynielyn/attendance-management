@@ -10,7 +10,7 @@
     margin-bottom: 20px;
     text-align: left;
     border-left: 8px solid black;
-    padding: 4px 10px;
+    padding: 4px 20px;
 }
 
 .staff__tab {
@@ -60,6 +60,48 @@
     color: #737373;
 }
 
+.table__inner-text {
+    font-family: Arial, sans-serif;
+}
+
 .staff__table a {
     text-decoration: none;
+    color: #000;
+}
+
+@media (max-width: 768px) {
+    .staff__list {
+        max-width: 90%;
+        padding: 15px;
+    }
+
+    .staff__list h1 {
+        font-size: 24px;
+        padding: 4px 15px;
+    }
+
+    .staff__tab {
+        align-items: center;
+    }
+
+    .tab__inner {
+        padding: 10px 20px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .staff__table {
+        border-radius: 10px;
+        overflow-x: auto;
+    }
+
+    .table__ttl {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .table__inner {
+        font-size: 14px;
+        padding: 8px;
+    }
 }

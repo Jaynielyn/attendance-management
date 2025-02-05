@@ -1,0 +1,40 @@
+.mail__page {
+    text-align: center;
+}
+
+.mail__ttl {
+    font-size: 80px;
+    margin-top: 40px;
+}
+
+.mail__txt {
+    font-size: 40px;
+    margin-top: 40px;
+}
+
+.mail__resend {
+    font-size: 30px;
+    font-weight: bold;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    margin-top: 40px;
+}
+
+@media (max-width: 768px) {
+    .mail__ttl {
+        font-size: 40px;
+    }
+
+    .mail__txt {
+        font-size: 24px;
+    }
+
+    .mail__resend {
+        font-size: 20px;
+        padding: 8px;
+    }
+}

@@ -30,25 +30,26 @@
                 <th class="table__ttl">退勤</th>
                 <th class="table__ttl">休憩</th>
                 <th class="table__ttl">合計</th>
-                <th class="table__ttl">詳細</th>
+                <th class="table__ttl table__ttl-detail">詳細</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($attendances as $attendance)
             <tr>
-                <td class="table__inner">{{ \Carbon\Carbon::parse($attendance->date)->format('m/d') }}({{ \Carbon\Carbon::parse($attendance->date)->isoFormat('ddd') }})</td>
+                <td class="table__inner">
+                    {{ \Carbon\Carbon::parse($attendance->date)->format('m/d') }}
+                    (<span class="weekday">{{ \Carbon\Carbon::parse($attendance->date)->isoFormat('ddd') }}</span>)
+                </td>
                 <td class="table__inner">{{ $attendance->check_in ? \Carbon\Carbon::parse($attendance->check_in)->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->check_out ? \Carbon\Carbon::parse($attendance->check_out)->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
                 <td class="table__inner">
-                    <a href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
+                    <a class="table__inner-link" href="{{ route('attendance.detail', ['id' => $attendance->id]) }}">詳細</a>
                 </td>
             </tr>
             @endforeach
         </tbody>
-
-
     </table>
 </div>
 @endsection

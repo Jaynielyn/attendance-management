@@ -40,12 +40,12 @@
         <tbody>
             @forelse ($attendances as $attendance)
             <tr>
-                <td class="table__inner">{{ $attendance->user->name }}</td>
+                <td class="table__inner table__inner-text">{{ $attendance->user->name }}</td>
                 <td class="table__inner">{{ $attendance->check_in ? \Carbon\Carbon::parse($attendance->check_in)->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->check_out ? \Carbon\Carbon::parse($attendance->check_out)->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
-                <td class="table__inner">
+                <td class="table__inner table__inner-text">
                     <a href="{{ route('admin.attendance.detail', ['userId' => $attendance->user->id, 'date' => $currentDate->toDateString()]) }}">詳細</a>
                 </td>
             </tr>

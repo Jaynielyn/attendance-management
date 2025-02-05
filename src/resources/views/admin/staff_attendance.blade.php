@@ -16,7 +16,7 @@
         </a>
         <span class="current__month">
             <img src="{{ asset('img/calendar.png') }}" alt="カレンダー" class="icon">
-            {{ \Carbon\Carbon::parse($currentMonth)->format('Y年m月') }}
+            {{ \Carbon\Carbon::parse($currentMonth)->format('Y/m') }}
         </span>
         <a href="{{ route('admin.staff_attendance', ['id' => $staff->id, 'month' => \Carbon\Carbon::parse($currentMonth)->addMonth()->format('Y-m')]) }}"
             class="next__month">
@@ -38,13 +38,16 @@
         <tbody>
             @foreach ($attendances as $attendance)
             <tr>
-                <td class="table__inner">{{ \Carbon\Carbon::parse($attendance->date)->format('m/d') }}({{ \Carbon\Carbon::parse($attendance->date)->isoFormat('ddd') }})</td>
+                <td class="table__inner">
+                    {{ \Carbon\Carbon::parse($attendance->date)->format('m/d') }}
+                    (<span class="weekday">{{ \Carbon\Carbon::parse($attendance->date)->isoFormat('ddd') }}</span>)
+                </td>
                 <td class="table__inner">{{ $attendance->check_in ? $attendance->check_in->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->check_out ? $attendance->check_out->format('H:i') : '-' }}</td>
                 <td class="table__inner">{{ $attendance->break_time }}</td>
                 <td class="table__inner">{{ $attendance->total_work_time }}</td>
                 <td class="table__inner">
-                    <a href="{{ route('admin.attendance.detail', ['userId' => $attendance->user_id, 'date' => \Carbon\Carbon::parse($attendance->date)->toDateString()]) }}">
+                    <a class="table__inner-link" href="{{ route('admin.attendance.detail', ['userId' => $attendance->user_id, 'date' => \Carbon\Carbon::parse($attendance->date)->toDateString()]) }}">
                         詳細
                     </a>
                 </td>
@@ -52,8 +55,8 @@
             @endforeach
         </tbody>
     </table>
-    <a href="{{ route('admin.staff.attendance.export', ['staffId' => $staff->id, 'month' => $currentMonth]) }}" class="btn btn-primary">
-        CSVダウンロード
+    <a href="{{ route('admin.staff.attendance.export', ['staffId' => $staff->id, 'month' => $currentMonth]) }}" class="csv__btn">
+        CSV出力
     </a>
 </div>
 @endsection

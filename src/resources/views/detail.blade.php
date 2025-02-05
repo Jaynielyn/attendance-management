@@ -34,15 +34,15 @@
                     <th class="table__ttl">出勤・退勤</th>
                     <td class="table__inner">
                         <div class="time__row">
-                            <input type="text" name="check_in" class="time" placeholder="HH:mm" value="{{ old('check_in', $attendance->check_in_time) }}">
+                            <input type="text" name="check_in" class="time" value="{{ old('check_in', $attendance->check_in_time) }}">
                             <span>~</span>
-                            <input type="text" name="check_out" class="time" placeholder="HH:mm" value="{{ old('check_out', $attendance->check_out_time) }}">
+                            <input type="text" name="check_out" class="time" value="{{ old('check_out', $attendance->check_out_time) }}">
                         </div>
                         @if ($errors->has('check_in'))
-                        <p class="error-message">{{ $errors->first('check_in') }}</p>
+                        <p class="error__message">{{ $errors->first('check_in') }}</p>
                         @endif
                         @if ($errors->has('check_out'))
-                        <p class="error-message">{{ $errors->first('check_out') }}</p>
+                        <p class="error__message">{{ $errors->first('check_out') }}</p>
                         @endif
                     </td>
                 </tr>
@@ -57,17 +57,17 @@
                         <div class="time__row">
                             <input type="hidden" name="break_times[{{ $index }}][id]" value="{{ $break->id }}">
                             <input type="text" class="time" name="break_times[{{ $index }}][start]"
-                                placeholder="HH:mm" value="{{ old("break_times.$index.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
+                                value="{{ old("break_times.$index.start", \Carbon\Carbon::parse($break->break_start)->format('H:i')) }}">
                             <span>~</span>
                             <input type="text" class="time" name="break_times[{{ $index }}][end]"
-                                placeholder="HH:mm" value="{{ old("break_times.$index.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
+                                value="{{ old("break_times.$index.end", \Carbon\Carbon::parse($break->break_end)->format('H:i')) }}">
                         </div>
                         @php
                         $breakError = $errors->has("break_times.$index.start") || $errors->has("break_times.$index.end");
                         @endphp
 
                         @if ($breakError)
-                        <p class="error-message">休憩時間が勤務時間外です。</p>
+                        <p class="error__message">休憩時間が勤務時間外です。</p>
                         @endif
                     </td>
                 </tr>
@@ -77,7 +77,7 @@
                     <td class="table__inner">
                         <textarea name="remarks">{{ old('remarks') }}</textarea>
                         @if ($errors->has('remarks'))
-                        <p class="error-message">{{ $errors->first('remarks') }}</p>
+                        <p class="error__message">{{ $errors->first('remarks') }}</p>
                         @endif
                     </td>
                 </tr>
