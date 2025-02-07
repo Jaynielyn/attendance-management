@@ -9,7 +9,6 @@ class Attendance extends Model
 {
     use HasFactory;
 
-    // テーブル名を指定（省略可能、Laravelが自動的に推測しますが、明示的に指定します）
     protected $table = 'attendances';
 
     protected $fillable = [

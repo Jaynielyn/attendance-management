@@ -63,6 +63,6 @@ class AdminRequestController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', '申請を承認しました。');
+        return redirect()->back();
     }
 }

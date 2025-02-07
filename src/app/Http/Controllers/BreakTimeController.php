@@ -19,7 +19,7 @@ class BreakTimeController extends Controller
             ->first();
 
         if (!$attendance) {
-            return redirect()->back()->with('error', '休憩を開始できる出勤データがありません。');
+            return redirect()->back();
         }
 
         BreakTime::create([
@@ -29,7 +29,7 @@ class BreakTimeController extends Controller
 
         $attendance->update(['status' => 'break']);
 
-        return redirect()->back()->with('success', '休憩を開始しました。');
+        return redirect()->back();
     }
 
     public function end()
@@ -41,7 +41,7 @@ class BreakTimeController extends Controller
             ->first();
 
         if (!$attendance) {
-            return redirect()->back()->with('error', '休憩を終了できるデータがありません。');
+            return redirect()->back();
         }
 
         // 開始中の休憩データを取得
@@ -50,7 +50,7 @@ class BreakTimeController extends Controller
             ->first();
 
         if (!$breakTime) {
-            return redirect()->back()->with('error', '終了する休憩が見つかりません。');
+            return redirect()->back();
         }
 
         $breakTime->update([
@@ -59,6 +59,6 @@ class BreakTimeController extends Controller
 
         $attendance->update(['status' => 'working']);
 
-        return redirect()->back()->with('success', '休憩が終了しました。');
+        return redirect()->back();
     }
 }

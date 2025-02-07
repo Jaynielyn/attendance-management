@@ -9,14 +9,8 @@ class BreakTime extends Model
 {
     use HasFactory;
 
-    /**
-     * テーブル名
-     */
     protected $table = 'breaks';
 
-    /**
-     * 一括代入可能な属性
-     */
     protected $fillable = [
         'attendance_id',
         'break_start',

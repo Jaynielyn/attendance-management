@@ -13,7 +13,7 @@ use App\Http\Requests\AttendanceRequest;
 
 class EditRequestController extends Controller
 {
-    public function update(AttendanceRequest $request, $id) // AttendanceRequestを引数に
+    public function update(AttendanceRequest $request, $id)
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
@@ -57,8 +57,7 @@ class EditRequestController extends Controller
             }
         }
 
-        return redirect()->route('attendance.detail', $id)
-            ->with('success', '修正が申請されました。');
+        return redirect()->route('attendance.detail', $id);
     }
 
     public function userRequests(Request $request)

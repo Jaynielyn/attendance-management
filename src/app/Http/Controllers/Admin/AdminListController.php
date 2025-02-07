@@ -150,8 +150,6 @@ class AdminListController extends Controller
         $attendance->remarks = $request->input('remarks');
         $attendance->save();
 
-        return redirect()->route('admin.attendance.detail', ['userId' => $userId, 'date' => $newDate->format('Y-m-d')])
-            ->with('success', '勤怠情報を更新しました。');
+        return redirect()->route('admin.attendance.detail', ['userId' => $userId, 'date' => $newDate->format('Y-m-d')]);
     }
-
 }

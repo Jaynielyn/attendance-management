@@ -48,11 +48,6 @@ class FortifyServiceProvider extends ServiceProvider
             return view('auth.login');
         });
 
-        // ユーザー用のログイン画面
-        Fortify::loginView(function () {
-            return view('auth.login');
-        });
-
         /**
          * カスタム認証ロジック
          */

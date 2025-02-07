@@ -34,7 +34,7 @@ class AttendanceController extends Controller
             ->first();
 
         if ($attendance) {
-            return back()->with('error', '今日の出勤は既に打刻されています。');
+            return back();
         }
 
         $attendance = Attendance::create([
@@ -44,7 +44,7 @@ class AttendanceController extends Controller
             'status' => 'working',
         ]);
 
-        return back()->with('success', '出勤打刻が完了しました。');
+        return back();
     }
 
     public function checkOut()
@@ -57,7 +57,7 @@ class AttendanceController extends Controller
             ->first();
 
         if (!$attendance) {
-            return back()->with('error', '出勤データが存在しません。');
+            return back();
         }
 
         $attendance->update([
@@ -65,6 +65,6 @@ class AttendanceController extends Controller
             'status' => 'finished',
         ]);
 
-        return back()->with('success', '退勤打刻が完了しました。');
+        return back();
     }
 }
