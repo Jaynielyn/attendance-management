@@ -5,23 +5,15 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\AdminLoginRequest;
 
 class AuthenticatedSessionController extends Controller
 {
     /**
      * 管理者ログイン処理
      */
-    public function store(Request $request)
+    public function store(AdminLoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ], [
-            'email.required' => 'メールアドレスを入力してください。',
-            'email.email' => '有効なメールアドレスを入力してください。',
-            'password.required' => 'パスワードを入力してください。',
-        ]);
-
         if (Auth::guard('admin')->attempt($request->only('email', 'password'), $request->boolean('remember'))) {
             $request->session()->regenerate();
             return redirect()->intended('/admin/attendance/list');

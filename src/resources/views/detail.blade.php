@@ -26,7 +26,7 @@
                             <input type="text" name="month_day" class="day" value="{{ old('month_day', \Carbon\Carbon::parse($attendance->date)->format('n月j日')) }}">
                         </div>
                         @if ($errors->has('month_day'))
-                        <p class="error-message">{{ $errors->first('month_day') }}</p>
+                        <p class="error__message">{{ $errors->first('month_day') }}</p>
                         @endif
                     </td>
                 </tr>

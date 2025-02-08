@@ -36,10 +36,10 @@
                             <input type="text" name="check_out" class="time" value="{{ \Carbon\Carbon::parse($attendance->check_out)->format('H:i') }}">
                         </div>
                         @error('check_in')
-                        <span class="text__danger">{{ $message }}</span>
+                        <span class="error__message">{{ $message }}</span>
                         @enderror
                         @error('check_out')
-                        <span class="text__danger">{{ $message }}</span>
+                        <span class="error__message">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>
@@ -52,12 +52,12 @@
                             <span>~</span>
                             <input type="text" name="break_end[]" class="time" value="{{ old("break_end.$index", \Carbon\Carbon::parse($breakTime->break_end)->format('H:i')) }}">
                         </div>
-                        @error('break_start.' . $index)
-                        <span class="text__danger">{{ $message }}</span>
-                        @enderror
-                        @error('break_end.' . $index)
-                        <span class="text__danger">{{ $message }}</span>
-                        @enderror
+                        @php
+                        $breakError = $errors->has("break_start.$index") || $errors->has("break_end.$index");
+                        @endphp
+                        @if ($breakError)
+                        <span class="error__message">休憩時間が勤務時間外です。</span>
+                        @endif
                     </td>
                 </tr>
                 @endforeach
@@ -69,12 +69,12 @@
                             <span>~</span>
                             <input type="text" name="break_end[]" class="time">
                         </div>
-                        @error('break_start.' . ($attendance->breakTimes->count()))
-                        <span class="text__danger">{{ $message }}</span>
-                        @enderror
-                        @error('break_end.' . ($attendance->breakTimes->count()))
-                        <span class="text__danger">{{ $message }}</span>
-                        @enderror
+                        @php
+                        $breakError = $errors->has("break_start.$index") || $errors->has("break_end.$index");
+                        @endphp
+                        @if ($breakError)
+                        <span class="error__message">休憩時間が勤務時間外です。</span>
+                        @endif
                     </td>
                 </tr>
                 <tr class="table__item">
@@ -82,7 +82,7 @@
                     <td class="table__inner">
                         <textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea>
                         @error('remarks')
-                        <span class="text__danger">{{ $message }}</span>
+                        <span class="error__message">{{ $message }}</span>
                         @enderror
                     </td>
                 </tr>

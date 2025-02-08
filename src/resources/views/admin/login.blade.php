@@ -16,6 +16,9 @@
             @error('email')
             <div class="error">{{ $message }}</div>
             @enderror
+            @if ($errors->has('login_failed'))
+            <div class="error">{{ $errors->first('login_failed') }}</div>
+            @endif
         </div>
         <div class="form__group form__group-pass">
             <label for="password" class="form__label">パスワード</label>
@@ -23,9 +26,6 @@
             @error('password')
             <div class="error">{{ $message }}</div>
             @enderror
-            @if ($errors->has('login_failed'))
-            <div class="error">{{ $errors->first('login_failed') }}</div>
-            @endif
         </div>
         <button type="submit" class="form__btn-submit">管理者ログインする</button>
     </form>
