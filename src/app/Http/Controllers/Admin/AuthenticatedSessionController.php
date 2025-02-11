@@ -19,7 +19,8 @@ class AuthenticatedSessionController extends Controller
             return redirect()->intended('/admin/attendance/list');
         }
 
-        return back()->withErrors([
+        return redirect()->route('admin.login') // 修正
+        ->withErrors([
             'login_failed' => 'ログイン情報が登録されていません。',
         ])->onlyInput('email');
     }

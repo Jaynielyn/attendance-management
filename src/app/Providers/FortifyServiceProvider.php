@@ -57,7 +57,6 @@ class FortifyServiceProvider extends ServiceProvider
         /**
          * カスタム認証ロジック（管理者 & ユーザー）
          */
-
         Fortify::authenticateUsing(function (Request $request) {
             // ✅ バリデーション
             $validated = Validator::make($request->all(), (new UserLoginRequest())->rules(), (new UserLoginRequest())->messages())->validate();
@@ -68,7 +67,7 @@ class FortifyServiceProvider extends ServiceProvider
                 if (!$admin || !Hash::check($validated['password'], $admin->password)) {
                     throw ValidationException::withMessages([
                         'email' => [Lang::get('auth.failed')],
-                    ]);
+                    ])->redirectTo('/login'); // /login にリダイレクト
                 }
                 return $admin;
             } else {
@@ -77,7 +76,7 @@ class FortifyServiceProvider extends ServiceProvider
                 if (!$user || !Hash::check($validated['password'], $user->password)) {
                     throw ValidationException::withMessages([
                         'email' => [Lang::get('auth.failed')],
-                    ]);
+                    ])->redirectTo('/login'); // /login にリダイレクト
                 }
                 return $user;
             }
