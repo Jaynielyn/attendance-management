@@ -2,8 +2,9 @@
 
 namespace Database\Factories;
 
-use App\Models\Admin;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Hash;
 
 class AdminFactory extends Factory
 {
@@ -12,8 +13,8 @@ class AdminFactory extends Factory
     public function definition()
     {
         return [
-            'email' => $this->faker->unique()->safeEmail,
-            'password' => bcrypt('password123'),
+            'email' => $this->faker->unique()->safeEmail(),
+            'password' => Hash::make('password123'),
         ];
     }
 }

@@ -65,12 +65,13 @@ class AdminListController extends Controller
 
     public function detail($userId, Request $request)
     {
-        $date = $request->input('date') ?? Carbon::today()->toDateString();
+        $date = $request->input('date') ? Carbon::parse($request->input('date'))->startOfDay() : Carbon::today()->startOfDay();
+
 
         $attendance = Attendance::with(['user', 'breakTimes'])
         ->where('user_id', $userId)
-            ->whereDate('date', $date)
-            ->first();
+        ->whereDate('date', Carbon::parse($date)->toDateString()) // `date`を適切な形式で渡す
+        ->first();
 
         if (!$attendance) {
             return redirect()->route('admin.attendance.list')->withErrors('指定された勤怠情報が見つかりません。');
@@ -124,15 +125,12 @@ class AdminListController extends Controller
                 if (!empty($breakEnds[$index])) {
                     $breakEndTime = \Carbon\Carbon::createFromFormat('H:i', $breakEnds[$index]);
 
-                    if ($checkIn && $breakEndTime->lt($checkIn)) {
-                        return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
-                    }
                     if ($checkOut && $breakEndTime->gt($checkOut)) {
                         return back()->withErrors(['break_end.' . $index => '休憩時間が勤務時間外です。']);
                     }
 
                     if ($breakStartTime->gt($breakEndTime)) {
-                        return back()->withErrors(['break_start.' . $index => '休憩開始時間が終了時間より後になっています。']);
+                        return back()->withErrors(['break_start.' . $index => '休憩時間が勤務時間外です。']);
                     }
 
                     // 休憩データを保存

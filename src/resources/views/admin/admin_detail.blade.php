@@ -43,7 +43,9 @@
                         @enderror
                     </td>
                 </tr>
-                @foreach ($attendance->breakTimes as $index => $breakTime)
+
+                <!-- 休憩データのループ部分 -->
+                @forelse ($attendance->breakTimes as $index => $breakTime)
                 <tr class="table__item">
                     <th class="table__ttl">休憩{{ $index + 1 }}</th>
                     <td class="table__inner">
@@ -60,8 +62,23 @@
                         @endif
                     </td>
                 </tr>
-                @endforeach
+                @empty
+                <!-- 休憩データがない場合 -->
                 <tr class="table__item">
+                    <th class="table__ttl">休憩1</th>
+                    <td class="table__inner">
+                        <div class="time__row">
+                            <input type="text" name="break_start[]" class="time">
+                            <span>~</span>
+                            <input type="text" name="break_end[]" class="time">
+                        </div>
+                    </td>
+                </tr>
+                @endforelse
+
+                <!-- 追加の休憩フィールド（休憩があればこのフィールドが増える） -->
+                @if($attendance->breakTimes->count() < 3)
+                    <tr class="table__item">
                     <th class="table__ttl">休憩{{ $attendance->breakTimes->count() + 1 }}</th>
                     <td class="table__inner">
                         <div class="time__row">
@@ -69,28 +86,23 @@
                             <span>~</span>
                             <input type="text" name="break_end[]" class="time">
                         </div>
-                        @php
-                        $breakError = $errors->has("break_start.$index") || $errors->has("break_end.$index");
-                        @endphp
-                        @if ($breakError)
-                        <span class="error__message">休憩時間が勤務時間外です。</span>
-                        @endif
                     </td>
-                </tr>
-                <tr class="table__item">
-                    <th class="table__ttl">備考</th>
-                    <td class="table__inner">
-                        <textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea>
-                        @error('remarks')
-                        <span class="error__message">{{ $message }}</span>
-                        @enderror
-                    </td>
-                </tr>
+                    </tr>
+                    @endif
+
+                    <tr class="table__item">
+                        <th class="table__ttl">備考</th>
+                        <td class="table__inner">
+                            <textarea name="remarks">{{ old('remarks', $attendance->remarks) }}</textarea>
+                            @error('remarks')
+                            <span class="error__message">{{ $message }}</span>
+                            @enderror
+                        </td>
+                    </tr>
 
             </table>
             <button type="submit" class="edit__button">修正</button>
         </form>
     </div>
 </div>
-
 @endsection

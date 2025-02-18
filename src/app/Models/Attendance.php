@@ -29,15 +29,20 @@ class Attendance extends Model
         return $this->hasMany(BreakTime::class);
     }
 
+    public function getTotalBreakTimeAttribute()
+    {
+        return $this->breakTimes->sum('duration_in_minutes'); // すべての休憩時間の合計
+    }
+
     public function editRequests()
     {
         return $this->hasMany(EditRequest::class);
     }
 
 
-    protected $dates = [
-        'check_in',
-        'check_out',
-        'date',
+    protected $casts = [
+        'date' => 'datetime',
+        'check_in' => 'datetime',
+        'check_out' => 'datetime',
     ];
 }

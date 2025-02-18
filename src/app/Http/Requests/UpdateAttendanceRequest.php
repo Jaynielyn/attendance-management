@@ -25,9 +25,59 @@ class UpdateAttendanceRequest extends FormRequest
     {
         return [
             'check_in' => ['required', 'date_format:H:i'],
-            'check_out' => ['required', 'date_format:H:i', 'after:check_in'],
-            'break_start.*' => ['nullable', 'date_format:H:i', 'after_or_equal:check_in', 'before_or_equal:check_out'],
-            'break_end.*' => ['nullable', 'date_format:H:i', 'after:break_start.*', 'before_or_equal:check_out'],
+            'check_out' => [
+                'required',
+                'date_format:H:i',
+                'after:check_in',
+                function ($attribute, $value, $fail) {
+                    // 出勤時間と退勤時間の比較
+                    if ($value <= request()->input('check_in')) {
+                        $fail('出勤時間もしくは退勤時間が不適切な値です。');
+                    }
+
+                    // 休憩終了時間と退勤時間の比較
+                    $breakEndTimes = request()->input('break_end', []);
+                    foreach ($breakEndTimes as $breakEnd) {
+                        if ($value <= $breakEnd) {
+                            $fail('出勤時間もしくは退勤時間が不適切な値です。');
+                            break;
+                        }
+                    }
+
+                    // 休憩開始時間と退勤時間の比較
+                    $breakStartTimes = request()->input('break_start', []);
+                    foreach ($breakStartTimes as $breakStart) {
+                        if ($value <= $breakStart) {
+                            $fail('出勤時間もしくは退勤時間が不適切な値です。');
+                            break;
+                        }
+                    }
+                }
+            ],
+
+            'break_start.*' => [
+                'nullable',
+                'date_format:H:i',
+                'after_or_equal:check_in',
+                'before_or_equal:check_out',
+                function ($attribute, $value, $fail) {
+                    if ($value && $value > request()->input('check_out')) {
+                        $fail('出勤時間もしくは退勤時間が不適切な値です。');
+                    }
+                }
+            ],
+            'break_end.*' => [
+                'nullable',
+                'date_format:H:i',
+                'after:break_start.*',
+                'before_or_equal:check_out',
+                function ($attribute, $value, $fail) {
+                    if ($value && $value > request()->input('check_out')) {
+                        $fail('休憩時間が勤務時間外です。');
+                        $fail('出勤時間もしくは退勤時間が不適切な値です。');
+                    }
+                }
+            ],
             'remarks' => ['required', 'string'],
         ];
     }

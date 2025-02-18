@@ -53,12 +53,6 @@ class AdminRequestController extends Controller
                         'break_start' => $editBreakTime->new_break_start,
                         'break_end' => $editBreakTime->new_break_end,
                     ]);
-                } else {
-                    // 存在しない場合は新たに追加
-                    $attendance->breakTimes()->create([
-                        'break_start' => $editBreakTime->new_break_start,
-                        'break_end' => $editBreakTime->new_break_end,
-                    ]);
                 }
             }
         }

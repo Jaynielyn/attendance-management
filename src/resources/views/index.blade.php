@@ -28,10 +28,10 @@
             </span>
         </div>
         <div class="attendance__date">
-            <p id="currentDate">{{ now()->locale('ja')->isoFormat('YYYY年MM月DD日(ddd)') }}</p>
+            <p id="currentDate">{{ $currentDateTime }}</p>
         </div>
         <div class="attendance__time">
-            <p id="currentTime">{{ now()->format('H:i') }}</p>
+            <p id="currentTime">{{ $currentDateTime }}</p>
         </div>
 
         @if($attendance)
