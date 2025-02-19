@@ -10,7 +10,6 @@
 <div class="staff__list">
     <h1>申請一覧</h1>
     <div class="staff__tab">
-        <!-- タブ切り替え -->
         <a href="{{ route('admin.requests', ['status' => '承認待ち']) }}"
             class="tab__inner {{ $status === '承認待ち' ? 'active' : '' }}">承認待ち</a>
         <a href="{{ route('admin.requests', ['status' => '承認済み']) }}"
@@ -24,7 +23,7 @@
                 <th class="table__ttl">対象日時</th>
                 <th class="table__ttl">申請理由</th>
                 <th class="table__ttl">申請日時</th>
-                <th class="table__ttl">操作</th>
+                <th class="table__ttl">詳細</th>
             </tr>
         </thead>
         <tbody>

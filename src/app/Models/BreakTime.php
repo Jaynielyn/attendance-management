@@ -37,7 +37,7 @@ class BreakTime extends Model
     public function getDurationInMinutesAttribute()
     {
         if ($this->break_start && $this->break_end) {
-            $start = Carbon::parse($this->break_start); // 文字列をCarbonに変換
+            $start = Carbon::parse($this->break_start);
             $end = Carbon::parse($this->break_end);
             return $start->diffInMinutes($end);
         }

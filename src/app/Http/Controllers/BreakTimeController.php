@@ -44,7 +44,6 @@ class BreakTimeController extends Controller
             return redirect()->back();
         }
 
-        // 開始中の休憩データを取得
         $breakTime = BreakTime::where('attendance_id', $attendance->id)
             ->whereNull('break_end')
             ->first();

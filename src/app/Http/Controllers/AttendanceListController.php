@@ -24,7 +24,6 @@ class AttendanceListController extends Controller
             ->orderBy('date', 'asc')
             ->get()
             ->map(function ($attendance) {
-                // 休憩時間の合計を取得（時と分のみ計算）
                 $totalBreakHours = 0;
                 $totalBreakMinutes = 0;
 
@@ -38,22 +37,18 @@ class AttendanceListController extends Controller
                     }
                 });
 
-                // 分が60を超える場合、時間に変換
                 if ($totalBreakMinutes >= 60) {
                     $totalBreakHours += floor($totalBreakMinutes / 60);
                     $totalBreakMinutes = $totalBreakMinutes % 60;
                 }
 
-                // 休憩時間を "hh:mm" 形式に変換
                 $attendance->break_time = sprintf('%02d:%02d', $totalBreakHours, $totalBreakMinutes);
 
-                // 合計作業時間の計算
                 if ($attendance->check_in && $attendance->check_out) {
                     $checkIn = Carbon::parse($attendance->check_in);
                     $checkOut = Carbon::parse($attendance->check_out);
                     $workDurationInMinutes = $checkIn->diffInHours($checkOut) * 60 + $checkIn->diffInMinutes($checkOut) % 60;
 
-                    // 休憩時間を差し引いた合計作業時間
                     $totalWorkMinutes = $workDurationInMinutes - ($totalBreakHours * 60 + $totalBreakMinutes);
 
                     if ($totalWorkMinutes > 0) {
@@ -75,13 +70,11 @@ class AttendanceListController extends Controller
     {
         $attendance = Attendance::with('breakTimes')->findOrFail($id);
 
-        // 日付を「年」と「月日」に分割
         $attendance->year = Carbon::parse($attendance->date)->format('Y年');
         $attendance->month_day = Carbon::parse($attendance->date)->format('m月d日');
         $attendance->check_in_time = $attendance->check_in ? Carbon::parse($attendance->check_in)->format('H:i') : null;
         $attendance->check_out_time = $attendance->check_out ? Carbon::parse($attendance->check_out)->format('H:i') : null;
 
-        // 休憩時間を取得（時と分のみ）
         $breakTimes = $attendance->breakTimes->map(function ($break) {
             return [
                 'start' => $break->break_start ? Carbon::parse($break->break_start)->format('H:i') : null,

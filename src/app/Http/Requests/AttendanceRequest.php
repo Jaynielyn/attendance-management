@@ -25,7 +25,6 @@ class AttendanceRequest extends FormRequest
                         $fail('出勤時間もしくは退勤時間が不適切な値です。');
                     }
 
-                    // 休憩開始時間 & 休憩終了時間が退勤時間を超えていないかチェック
                     foreach (request()->input('break_times', []) as $break) {
                         if (!empty($break['end']) && $break['end'] > $value) {
                             $fail('休憩時間が勤務時間外です。');

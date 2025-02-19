@@ -18,21 +18,16 @@ class DetailTest extends TestCase
         /** @var \App\Models\User $user */
         $user = User::factory()->create(['name' => 'テストユーザー']);
 
-        // 2. ログイン
         $this->actingAs($user);
 
-        // 3. 勤怠データを作成
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
         ]);
 
-        // 4. 勤怠詳細画面にアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 勤怠詳細画面が正しく表示されるか確認
         $response->assertStatus(200);
 
-        // 6. 「名前」にログインユーザーの氏名が表示されているか確認
         $response->assertSee('テストユーザー');
     }
 
@@ -42,25 +37,20 @@ class DetailTest extends TestCase
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
-        // 2. ログイン
         $this->actingAs($user);
 
-        // 3. 特定の日付の勤怠データを作成
-        $selectedDate = now()->subDays(3); // 3日前の日付
+        $selectedDate = now()->subDays(3);
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
             'date' => $selectedDate,
         ]);
 
-        // 4. 勤怠詳細画面にアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 勤怠詳細画面が正しく表示されるか確認
         $response->assertStatus(200);
 
-        // 6. 選択した日付が正しく表示されているか確認（フォーマットをビューに合わせる）
         $response->assertSee($selectedDate->format('Y年'));
-        $response->assertSee(ltrim($selectedDate->format('n月j日'), '0')); // 月・日付のゼロ埋めを削除
+        $response->assertSee(ltrim($selectedDate->format('n月j日'), '0'));
     }
 
     /** @test */
@@ -69,12 +59,10 @@ class DetailTest extends TestCase
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
-        // 2. ログイン
         $this->actingAs($user);
 
-        // 3. 特定の出勤・退勤時間で勤怠データを作成
-        $checkInTime = now()->subHours(8);  // 8時間前に出勤
-        $checkOutTime = now()->subHours(1); // 1時間前に退勤
+        $checkInTime = now()->subHours(8);
+        $checkOutTime = now()->subHours(1);
 
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
@@ -82,15 +70,12 @@ class DetailTest extends TestCase
             'check_out' => $checkOutTime,
         ]);
 
-        // 4. 勤怠詳細画面にアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 5. 勤怠詳細画面が正しく表示されるか確認
         $response->assertStatus(200);
 
-        // 6. 出勤・退勤時間が正しく表示されているか確認
-        $response->assertSee($checkInTime->format('H:i'));  // 例: 08:30
-        $response->assertSee($checkOutTime->format('H:i')); // 例: 17:45
+        $response->assertSee($checkInTime->format('H:i'));
+        $response->assertSee($checkOutTime->format('H:i'));
     }
 
     /** @test */
@@ -99,17 +84,14 @@ class DetailTest extends TestCase
         /** @var \App\Models\User $user */
         $user = User::factory()->create();
 
-        // 2. ログイン
         $this->actingAs($user);
 
-        // 3. 勤怠データを作成（出勤・退勤時間あり）
         $attendance = Attendance::factory()->create([
             'user_id' => $user->id,
-            'check_in' => now()->subHours(8),  // 出勤8時間前
-            'check_out' => now()->subHours(1), // 退勤1時間前
+            'check_in' => now()->subHours(8),
+            'check_out' => now()->subHours(1),
         ]);
 
-        // 4. 休憩データを作成（2回の休憩）
         $break1Start = now()->subHours(6);
         $break1End = now()->subHours(5);
         $break2Start = now()->subHours(3);
@@ -127,17 +109,13 @@ class DetailTest extends TestCase
             'break_end' => $break2End,
         ]);
 
-        // 5. 勤怠詳細画面にアクセス
         $response = $this->get(route('attendance.detail', ['id' => $attendance->id]));
 
-        // 6. 勤怠詳細画面が正しく表示されるか確認
         $response->assertStatus(200);
 
-        // 7. 休憩時間が正しく表示されているか確認
         $response->assertSee($break1Start->format('H:i'));
         $response->assertSee($break1End->format('H:i'));
         $response->assertSee($break2Start->format('H:i'));
         $response->assertSee($break2End->format('H:i'));
     }
-
 }

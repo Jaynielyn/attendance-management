@@ -13,10 +13,12 @@ class EditRequestFactory extends Factory
 
     public function definition()
     {
+        $faker = \Faker\Factory::create('ja_JP');
+
         return [
             'user_id' => User::factory(),
             'attendance_id' => Attendance::factory(),
-            'reason' => $this->faker->sentence(),
+            'reason' => $faker->sentence(),
             'new_date' => now()->format('Y-m-d'),
             'new_check_in' => now()->subHours(7)->format('H:i'),
             'new_check_out' => now()->subHours(1)->format('H:i'),

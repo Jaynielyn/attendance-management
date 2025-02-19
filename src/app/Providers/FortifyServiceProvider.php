@@ -37,10 +37,8 @@ class FortifyServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // 新規ユーザー作成処理を設定
         Fortify::createUsersUsing(CreateNewUser::class);
 
-        // ユーザー用の登録画面
         Fortify::registerView(function () {
             return view('auth.register');
         });
@@ -49,7 +47,6 @@ class FortifyServiceProvider extends ServiceProvider
             return new SimpleViewResponse('auth.verify-email');
         });
 
-        // ユーザー & 管理者のログイン画面
         Fortify::loginView(function () {
             return view('auth.login');
         });
@@ -58,31 +55,27 @@ class FortifyServiceProvider extends ServiceProvider
          * カスタム認証ロジック（管理者 & ユーザー）
          */
         Fortify::authenticateUsing(function (Request $request) {
-            // ✅ バリデーション
             $validated = Validator::make($request->all(), (new UserLoginRequest())->rules(), (new UserLoginRequest())->messages())->validate();
 
             if ($request->is('admin/*')) {
-                // 管理者認証
                 $admin = Admin::where('email', $validated['email'])->first();
                 if (!$admin || !Hash::check($validated['password'], $admin->password)) {
                     throw ValidationException::withMessages([
                         'email' => [Lang::get('auth.failed')],
-                    ])->redirectTo('/login'); // /login にリダイレクト
+                    ])->redirectTo('/login');
                 }
                 return $admin;
             } else {
-                // ユーザー認証
                 $user = User::where('email', $validated['email'])->first();
                 if (!$user || !Hash::check($validated['password'], $user->password)) {
                     throw ValidationException::withMessages([
                         'email' => [Lang::get('auth.failed')],
-                    ])->redirectTo('/login'); // /login にリダイレクト
+                    ])->redirectTo('/login');
                 }
                 return $user;
             }
         });
 
-        // ログイン試行回数の制限
         RateLimiter::for('login', function (Request $request) {
             $email = (string) $request->email;
 

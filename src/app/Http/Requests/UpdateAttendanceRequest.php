@@ -30,12 +30,10 @@ class UpdateAttendanceRequest extends FormRequest
                 'date_format:H:i',
                 'after:check_in',
                 function ($attribute, $value, $fail) {
-                    // 出勤時間と退勤時間の比較
                     if ($value <= request()->input('check_in')) {
                         $fail('出勤時間もしくは退勤時間が不適切な値です。');
                     }
 
-                    // 休憩終了時間と退勤時間の比較
                     $breakEndTimes = request()->input('break_end', []);
                     foreach ($breakEndTimes as $breakEnd) {
                         if ($value <= $breakEnd) {
@@ -44,7 +42,6 @@ class UpdateAttendanceRequest extends FormRequest
                         }
                     }
 
-                    // 休憩開始時間と退勤時間の比較
                     $breakStartTimes = request()->input('break_start', []);
                     foreach ($breakStartTimes as $breakStart) {
                         if ($value <= $breakStart) {

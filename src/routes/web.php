@@ -41,7 +41,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    // 管理者ログインページ
     Route::get('/login', function () {
         return view('admin.login');
     })->name('admin.login');
@@ -52,7 +51,6 @@ Route::prefix('admin')->group(function () {
         ->middleware('auth:admin')
         ->name('admin.logout');
 
-    // 管理者専用ルート（認証が必要）
     Route::middleware('auth:admin')->group(function () {
         Route::get('/attendance/list', [AdminListController::class, 'index'])->name('admin.admin_list');
         Route::get('/attendance/detail/{userId}', [AdminListController::class, 'detail'])->name('admin.attendance.detail');

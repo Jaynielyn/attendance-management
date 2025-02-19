@@ -15,6 +15,9 @@ class AttendanceFactory extends Factory
         return [
             'user_id' => User::factory(),
             'date' => now()->subDays(rand(0, 5)),
+            'check_in' => $this->faker->time('H:i:s'),
+            'check_out' => $this->faker->time('H:i:s'),
+            'status' => 'finished',
         ];
     }
 }

@@ -44,8 +44,7 @@
                     </td>
                 </tr>
 
-                <!-- 休憩データのループ部分 -->
-                @forelse ($attendance->breakTimes as $index => $breakTime)
+                @foreach ($attendance->breakTimes as $index => $breakTime)
                 <tr class="table__item">
                     <th class="table__ttl">休憩{{ $index + 1 }}</th>
                     <td class="table__inner">
@@ -62,21 +61,8 @@
                         @endif
                     </td>
                 </tr>
-                @empty
-                <!-- 休憩データがない場合 -->
-                <tr class="table__item">
-                    <th class="table__ttl">休憩1</th>
-                    <td class="table__inner">
-                        <div class="time__row">
-                            <input type="text" name="break_start[]" class="time">
-                            <span>~</span>
-                            <input type="text" name="break_end[]" class="time">
-                        </div>
-                    </td>
-                </tr>
-                @endforelse
+                @endforeach
 
-                <!-- 追加の休憩フィールド（休憩があればこのフィールドが増える） -->
                 @if($attendance->breakTimes->count() < 3)
                     <tr class="table__item">
                     <th class="table__ttl">休憩{{ $attendance->breakTimes->count() + 1 }}</th>
@@ -89,7 +75,6 @@
                     </td>
                     </tr>
                     @endif
-
                     <tr class="table__item">
                         <th class="table__ttl">備考</th>
                         <td class="table__inner">

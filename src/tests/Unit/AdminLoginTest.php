@@ -35,19 +35,16 @@ class AdminLoginTest extends TestCase
     /** @test */
     public function 登録内容と一致しない場合バリデーションメッセージが表示される()
     {
-        // ダミーの管理者ユーザーを作成
         Admin::factory()->create([
             'email' => 'admin@example.com',
             'password' => bcrypt('correct-password'),
         ]);
 
-        // 間違ったパスワードでログインを試みる
         $response = $this->post(route('admin.login'), [
             'email' => 'admin@example.com',
             'password' => 'wrong-password',
         ]);
 
-        // エラーメッセージが「ログイン情報が登録されていません。」であることを確認
         $response->assertSessionHasErrors(['login_failed' => 'ログイン情報が登録されていません。']);
     }
 

@@ -21,10 +21,8 @@ class AttendanceController extends Controller
 
         $dateChanged = $attendance ? today()->isAfter($attendance->date) : false;
 
-        // 現在の日時を取得（日本語の曜日付き）
         $currentDateTime = Carbon::now()->locale('ja')->isoFormat('YYYY年MM月DD日(ddd) HH:mm');
 
-        // ビューに現在の日時を渡す
         return view('index', compact('attendance', 'date', 'dateChanged', 'currentDateTime'));
     }
 

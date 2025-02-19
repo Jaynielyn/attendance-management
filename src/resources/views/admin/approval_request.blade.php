@@ -8,7 +8,7 @@
 
 @section('content')
 <div class="attendance__detail">
-    <h1 class="detail__ttl">修正申請詳細</h1>
+    <h1 class="detail__ttl">勤怠詳細</h1>
     <div class="detail__form-container">
         <form class="detail__form" method="POST" action="{{ route('admin.approve_request', $editRequest->id) }}">
             @csrf

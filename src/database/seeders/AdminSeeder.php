@@ -15,7 +15,7 @@ class AdminSeeder extends Seeder
     {
         Admin::create([
             'email' => 'admin@example.com',
-            'password' => Hash::make('password123'), // セキュアなパスワードを設定
+            'password' => Hash::make('password123'),
         ]);
     }
 }

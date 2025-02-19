@@ -21,7 +21,6 @@ class AdminRequestController extends Controller
 
     public function approvalRequest($id)
     {
-        // 修正申請を取得
         $editRequest = EditRequest::with('user', 'attendance', 'editBreakTimes')->findOrFail($id);
 
         return view('admin.approval_request', compact('editRequest'));
@@ -41,14 +40,11 @@ class AdminRequestController extends Controller
             'check_out' => $editRequest->new_check_out,
         ]);
 
-        // 休憩時間の更新処理
         if ($editRequest->editBreakTimes) {
             foreach ($editRequest->editBreakTimes as $editBreakTime) {
-                // 休憩時間が既に存在する場合は更新
                 $existingBreakTime = $attendance->breakTimes->where('id', $editBreakTime->break_id)->first();
 
                 if ($existingBreakTime) {
-                    // 休憩時間が一致する場合、既存の休憩時間を更新
                     $existingBreakTime->update([
                         'break_start' => $editBreakTime->new_break_start,
                         'break_end' => $editBreakTime->new_break_end,

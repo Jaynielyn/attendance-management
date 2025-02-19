@@ -35,7 +35,6 @@ class AdminListController extends Controller
                     }
                 });
 
-                // 分が60を超えた場合、時間に変換
                 if ($totalBreakMinutes >= 60) {
                     $totalBreakHours += floor($totalBreakMinutes / 60);
                     $totalBreakMinutes %= 60;
@@ -43,7 +42,6 @@ class AdminListController extends Controller
 
                 $attendance->break_time = sprintf('%02d:%02d', $totalBreakHours, $totalBreakMinutes);
 
-                // 合計作業時間の計算
                 if ($attendance->check_in && $attendance->check_out) {
                     $checkIn = Carbon::parse($attendance->check_in);
                     $checkOut = Carbon::parse($attendance->check_out);
@@ -70,7 +68,7 @@ class AdminListController extends Controller
 
         $attendance = Attendance::with(['user', 'breakTimes'])
         ->where('user_id', $userId)
-        ->whereDate('date', Carbon::parse($date)->toDateString()) // `date`を適切な形式で渡す
+        ->whereDate('date', Carbon::parse($date)->toDateString())
         ->first();
 
         if (!$attendance) {
@@ -82,7 +80,6 @@ class AdminListController extends Controller
 
     public function updateDetail(UpdateAttendanceRequest $request, $userId, $date)
     {
-        // 勤怠データを取得
         $attendance = Attendance::where('user_id', $userId)
             ->whereDate('date', $date)
             ->first();
@@ -91,7 +88,6 @@ class AdminListController extends Controller
             return redirect()->back()->with('error', '勤怠情報が見つかりません。');
         }
 
-        // 年と月日を処理
         $year = intval(preg_replace('/[^0-9]/', '', $request->input('year')));
         preg_match('/(\d{1,2})月(\d{1,2})日/', $request->input('month_day'), $matches);
         if (count($matches) === 3) {
@@ -105,7 +101,6 @@ class AdminListController extends Controller
         $checkIn = $request->input('check_in') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_in')) : null;
         $checkOut = $request->input('check_out') ? \Carbon\Carbon::createFromFormat('H:i', $request->input('check_out')) : null;
 
-        // 休憩時間のバリデーションと保存
         $breakStarts = $request->input('break_start');
         $breakEnds = $request->input('break_end');
 
@@ -133,7 +128,6 @@ class AdminListController extends Controller
                         return back()->withErrors(['break_start.' . $index => '休憩時間が勤務時間外です。']);
                     }
 
-                    // 休憩データを保存
                     $attendance->breakTimes()->create([
                         'break_start' => $breakStartTime->format('H:i'),
                         'break_end' => $breakEndTime->format('H:i'),

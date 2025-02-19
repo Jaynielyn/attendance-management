@@ -31,7 +31,7 @@ class Attendance extends Model
 
     public function getTotalBreakTimeAttribute()
     {
-        return $this->breakTimes->sum('duration_in_minutes'); // すべての休憩時間の合計
+        return $this->breakTimes->sum('duration_in_minutes');
     }
 
     public function editRequests()

@@ -41,7 +41,6 @@ class EditRequestController extends Controller
             'requested_at' => now(),
         ]);
 
-        // 修正後の休憩時間を保存
         if ($request->has('break_times')) {
             foreach ($request->input('break_times') as $break) {
                 if (!empty($break['start']) && !empty($break['end']) && !empty($break['id'])) {

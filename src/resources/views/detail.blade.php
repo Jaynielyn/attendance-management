@@ -22,8 +22,8 @@
                     <th class="table__ttl">日付</th>
                     <td class="table__inner">
                         <div class="date__row">
-                            <input type="text" name="year" class="year" value="{{ old('year', \Carbon\Carbon::parse($attendance->date)->format('Y年')) }}">
-                            <input type="text" name="month_day" class="day" value="{{ old('month_day', \Carbon\Carbon::parse($attendance->date)->format('n月j日')) }}">
+                            <input type="text" name="year" class="year input-date" value="{{ old('year', \Carbon\Carbon::parse($attendance->date)->format('Y年')) }}">
+                            <input type="text" name="month_day" class="day input-date" value="{{ old('month_day', \Carbon\Carbon::parse($attendance->date)->format('n月j日')) }}">
                         </div>
                         @if ($errors->has('month_day'))
                         <p class="error__message">{{ $errors->first('month_day') }}</p>
